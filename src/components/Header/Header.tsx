@@ -1,17 +1,9 @@
 import { Kbd } from "@heroui/kbd";
 import { Link } from "@heroui/link";
 import { Input } from "@heroui/input";
-import {
-  Navbar as HeroUINavbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarMenuToggle,
-  NavbarMenu,
-  NavbarMenuItem,
-} from "@heroui/navbar";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/navbar";
 
-import { siteConfig } from "@/config/site";
-import { GithubIcon, SearchIcon } from "@/components/icons";
+import { SearchIcon } from "@/components/icons";
 
 export const Header = () => {
   const searchInput = (
@@ -36,69 +28,24 @@ export const Header = () => {
   );
 
   return (
-    <HeroUINavbar maxWidth="xl" position="sticky">
-      <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
-        <NavbarBrand className="gap-3 max-w-fit">
-          <Link
-            className="flex justify-start items-center gap-1"
-            color="foreground"
-            href="/"
-          >
-            <p className="font-bold text-inherit">⚔️ MVP Tracker</p>
+    <Navbar
+      isBordered
+      className="p-4"
+      position="sticky"
+      style={{ ["--navbar-height"]: "unset" } as React.CSSProperties}
+    >
+      <NavbarContent className="flex-col items-start gap-4">
+        <NavbarBrand className="max-w-fit flex-col items-start gap-1">
+          <Link color="foreground" href="/">
+            <p className="font-bold">⚔️ MVP Tracker</p>
           </Link>
+          <p className="text-sm text-default-500">
+            Acompanhe seus MVPs e receba notificações quando eles estiverem
+            prontos.
+          </p>
         </NavbarBrand>
-        <p className="text-sm text-default-500">
-          Track your MVPs and get notified when they are ready.
-        </p>
+        <NavbarItem className="w-full">{searchInput}</NavbarItem>
       </NavbarContent>
-
-      {/* <NavbarContent
-        className="hidden sm:flex basis-1/5 sm:basis-full"
-        justify="end"
-      >
-        <NavbarItem className="hidden sm:flex gap-2">
-          <Link isExternal href={siteConfig.links.twitter} title="Twitter">
-            <TwitterIcon className="text-default-500" />
-          </Link>
-          <Link isExternal href={siteConfig.links.discord} title="Discord">
-            <DiscordIcon className="text-default-500" />
-          </Link>
-          <Link isExternal href={siteConfig.links.github} title="GitHub">
-            <GithubIcon className="text-default-500" />
-          </Link>
-        </NavbarItem>
-        <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
-      </NavbarContent> */}
-
-      <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-        <Link isExternal href={siteConfig.links.github}>
-          <GithubIcon className="text-default-500" />
-        </Link>
-        <NavbarMenuToggle />
-      </NavbarContent>
-
-      <NavbarMenu>
-        {searchInput}
-        <div className="mx-4 mt-2 flex flex-col gap-2">
-          {siteConfig.navMenuItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
-                color={
-                  index === 2
-                    ? "primary"
-                    : index === siteConfig.navMenuItems.length - 1
-                      ? "danger"
-                      : "foreground"
-                }
-                href="#"
-                size="lg"
-              >
-                {item.label}
-              </Link>
-            </NavbarMenuItem>
-          ))}
-        </div>
-      </NavbarMenu>
-    </HeroUINavbar>
+    </Navbar>
   );
 };
