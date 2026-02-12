@@ -25,6 +25,54 @@ export const GithubIcon: React.FC<IconSvgProps> = ({
   );
 };
 
+export const ClockIcon: React.FC<IconSvgProps> = ({
+  size = 16,
+  width,
+  height,
+  ...props
+}) => {
+  return (
+    <svg
+      fill="none"
+      height={size || height}
+      stroke="currentColor"
+      strokeWidth={1.5}
+      viewBox="0 0 24 24"
+      width={size || width}
+      {...props}
+    >
+      <path
+        d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};
+
+export const SkullIcon: React.FC<IconSvgProps> = ({
+  size = 16,
+  width,
+  height,
+  ...props
+}) => {
+  return (
+    <svg
+      height={size || height}
+      viewBox="0 0 14 14"
+      width={size || width}
+      {...props}
+    >
+      <path
+        clipRule="evenodd"
+        d="M1.875 6.375a5.125 5.125 0 1 1 8.244 4.067a.63.63 0 0 0-.244.495v1.438a.375.375 0 0 1-.375.375h-.625V11.5a.625.625 0 1 0-1.25 0v1.25h-1.25V11.5a.625.625 0 1 0-1.25 0v1.25H4.5a.375.375 0 0 1-.375-.375v-1.438a.63.63 0 0 0-.244-.495a5.12 5.12 0 0 1-2.006-4.067M7 0a6.375 6.375 0 0 0-4.125 11.236v1.139c0 .898.728 1.625 1.625 1.625h5c.898 0 1.625-.727 1.625-1.625v-1.14A6.375 6.375 0 0 0 7 0M6 7a1.25 1.25 0 1 1-2.5 0A1.25 1.25 0 0 1 6 7m4.5 0A1.25 1.25 0 1 1 8 7a1.25 1.25 0 0 1 2.5 0"
+        fill="currentColor"
+        fillRule="evenodd"
+      />
+    </svg>
+  );
+};
+
 export const SearchIcon = (props: IconSvgProps) => (
   <svg
     aria-hidden="true"
