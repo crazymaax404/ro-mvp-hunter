@@ -41,7 +41,7 @@ export const MvpCard = ({ mvp }: MvpCardProps) => {
     "window-active": {
       label: "Janela Ativa",
       className:
-        "border-2 border-[hsl(var(--respawn-green))] text-white animate-pulse-badge",
+        "border-2 border-[hsl(var(--respawn-window))] text-white animate-pulse-badge",
     },
     respawned: {
       label: "RENASCEU!",

@@ -8,7 +8,7 @@
   --respawn-red: 0 84% 45%;
   --respawn-yellow: 45 100% 50%;
   --respawn-green: 142 76% 36%;
-  --respawn-window: 142 70% 42%;
+  --respawn-window: 270 60% 55%;
 }
 
 @keyframes pulse-badge {
