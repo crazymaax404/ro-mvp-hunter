@@ -6,6 +6,7 @@ export interface MvpData {
   respawnMax: number;
   map: string;
   imageUrl: string;
+  mapUrl: string;
 }
 
 export type RespawnStatus =
