@@ -1,13 +1,102 @@
+import { useState, useEffect, useCallback } from "react";
 import { Card, CardBody } from "@heroui/card";
 import { Image } from "@heroui/image";
 import { Button } from "@heroui/button";
+import { Chip } from "@heroui/chip";
 
 import { ClockIcon, SkullIcon } from "../icons";
 
 import { MvpCardProps } from "./mvpCard.interfaces";
 
+import { RespawnChipConfig, RespawnStatus } from "@/interfaces";
+import { formatCountdown, formatTime } from "@/utils";
+
 export const MvpCard = ({ mvp }: MvpCardProps) => {
+  const [lastDeathTime, setLastDeathTime] = useState<Date | null>(null);
+  const [now, setNow] = useState(() => new Date());
+
   const { name, level, respawnMin, respawnMax, map, imageUrl } = mvp;
+
+  const chipConfig: RespawnChipConfig = {
+    far: { label: "Longe", color: "danger", variant: "solid" },
+    half: { label: "Metade", color: "warning", variant: "solid" },
+    near: { label: "Perto", color: "success", variant: "solid" },
+    "window-active": {
+      label: "Janela Ativa",
+      color: "success",
+      variant: "bordered",
+    },
+    respawned: { label: "RESNASCEU!", color: "success", variant: "solid" },
+  };
+
+  useEffect(() => {
+    if (!lastDeathTime) return;
+
+    const interval = setInterval(() => setNow(new Date()), 1000);
+
+    return () => clearInterval(interval);
+  }, [lastDeathTime]);
+
+  const handleRegisterDeath = useCallback(() => {
+    const deathTime = new Date();
+
+    setLastDeathTime(deathTime);
+    setNow(deathTime);
+  }, []);
+
+  const elapsedMinutes = lastDeathTime
+    ? (now.getTime() - lastDeathTime.getTime()) / 60000
+    : 0;
+
+  const windowStart = lastDeathTime
+    ? new Date(lastDeathTime.getTime() + respawnMin * 60000)
+    : null;
+  const windowEnd = lastDeathTime
+    ? new Date(lastDeathTime.getTime() + respawnMax * 60000)
+    : null;
+
+  let countdownSeconds = 0;
+
+  if (lastDeathTime) {
+    if (elapsedMinutes < respawnMin) {
+      const remainingMinutes = respawnMin - elapsedMinutes;
+
+      countdownSeconds = Math.max(0, Math.floor(remainingMinutes * 60));
+    } else if (elapsedMinutes < respawnMax) {
+      countdownSeconds = Math.max(
+        0,
+        Math.floor((respawnMax - elapsedMinutes) * 60),
+      );
+    }
+  }
+
+  const getRespawnStatus = useCallback(
+    (
+      elapsedMinutes: number,
+      respawnMin: number,
+      respawnMax: number,
+    ): RespawnStatus => {
+      if (elapsedMinutes >= respawnMax) return "respawned";
+
+      if (elapsedMinutes >= respawnMin) return "window-active";
+
+      const remaining = respawnMin - elapsedMinutes;
+      const percentRemaining = remaining / respawnMin;
+
+      if (percentRemaining > 0.5) return "far";
+      if (percentRemaining > 0.1) return "half";
+
+      return "near";
+    },
+    [],
+  );
+
+  const status: RespawnStatus | null =
+    lastDeathTime && elapsedMinutes <= respawnMax
+      ? getRespawnStatus(elapsedMinutes, respawnMin, respawnMax)
+      : lastDeathTime && elapsedMinutes > respawnMax
+        ? "respawned"
+        : null;
 
   return (
     <Card>
@@ -17,7 +106,7 @@ export const MvpCard = ({ mvp }: MvpCardProps) => {
           className="bg-default-100 p-3 h-30 w-30 object-contain"
           src={imageUrl}
         />
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 flex-1 min-w-0">
           <h1 className="text-lg font-bold">{name}</h1>
           <div>
             <p className="text-sm text-default-500">
@@ -30,7 +119,41 @@ export const MvpCard = ({ mvp }: MvpCardProps) => {
               </p>
             </div>
           </div>
-          <Button color="danger" startContent={<SkullIcon size={16} />}>
+
+          {lastDeathTime && (
+            <div className="flex flex-col gap-2 mt-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                {status && (
+                  <Chip
+                    color={chipConfig[status].color}
+                    size="sm"
+                    variant={chipConfig[status].variant ?? "solid"}
+                  >
+                    {chipConfig[status].label}
+                  </Chip>
+                )}
+                {status !== "respawned" && (
+                  <span className="text-lg font-bold tabular-nums">
+                    {formatCountdown(countdownSeconds)}
+                  </span>
+                )}
+              </div>
+              <div className="flex flex-col gap-0.5 text-sm text-default-500">
+                {windowStart && windowEnd && (
+                  <p>
+                    Janela: {formatTime(windowStart)} - {formatTime(windowEnd)}
+                  </p>
+                )}
+                <p>Última morte: {formatTime(lastDeathTime)}</p>
+              </div>
+            </div>
+          )}
+
+          <Button
+            color="danger"
+            startContent={<SkullIcon size={16} />}
+            onPress={handleRegisterDeath}
+          >
             Registrar Morte
           </Button>
         </div>

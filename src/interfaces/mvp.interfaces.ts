@@ -7,3 +7,19 @@ export interface MvpData {
   map: string;
   imageUrl: string;
 }
+
+export type RespawnStatus =
+  | "far"
+  | "half"
+  | "near"
+  | "window-active"
+  | "respawned";
+
+export type RespawnChipConfig = Record<
+  RespawnStatus,
+  {
+    color: "danger" | "success" | "warning";
+    label: string;
+    variant?: "bordered" | "flat" | "solid";
+  }
+>;
