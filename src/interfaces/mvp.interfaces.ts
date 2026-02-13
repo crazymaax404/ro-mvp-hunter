@@ -23,3 +23,8 @@ export type RespawnChipConfig = Record<
     label: string;
   }
 >;
+
+export interface MvpDeathRecord {
+  deathTime: string;
+  mapPosition?: { x: number; y: number };
+}

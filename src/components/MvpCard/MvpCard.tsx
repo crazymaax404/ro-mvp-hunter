@@ -4,24 +4,21 @@ import { Image } from "@heroui/image";
 import { Button } from "@heroui/button";
 import { Chip } from "@heroui/chip";
 
-import { ClockIcon, SkullIcon } from "../icons";
+import { ClockIcon, LocationPinIcon, SkullIcon } from "../icons";
 
 import { MvpCardProps } from "./mvpCard.interfaces";
 
 import { RespawnChipConfig, RespawnStatus } from "@/interfaces";
-import {
-  formatCountdown,
-  formatTime,
-  getStoredDeathTime,
-  setStoredDeathTime,
-} from "@/utils";
+import { formatCountdown, formatTime, getStoredMapPosition } from "@/utils";
 
-export const MvpCard = ({ mvp }: MvpCardProps) => {
+export const MvpCard = ({
+  mvp,
+  lastDeathTime,
+  onOpenLocationModal,
+  onOpenRegisterModal,
+}: MvpCardProps) => {
   const { id, name, level, respawnMin, respawnMax, map, imageUrl } = mvp;
 
-  const [lastDeathTime, setLastDeathTime] = useState<Date | null>(() =>
-    getStoredDeathTime(id),
-  );
   const [now, setNow] = useState(() => new Date());
 
   const chipConfig: RespawnChipConfig = {
@@ -58,13 +55,7 @@ export const MvpCard = ({ mvp }: MvpCardProps) => {
     return () => clearInterval(interval);
   }, [lastDeathTime]);
 
-  const handleRegisterDeath = useCallback(() => {
-    const deathTime = new Date();
-
-    setStoredDeathTime(id, deathTime);
-    setLastDeathTime(deathTime);
-    setNow(deathTime);
-  }, [id]);
+  const storedMapPosition = lastDeathTime ? getStoredMapPosition(id) : null;
 
   const elapsedMinutes = lastDeathTime
     ? (now.getTime() - lastDeathTime.getTime()) / 60000
@@ -99,7 +90,6 @@ export const MvpCard = ({ mvp }: MvpCardProps) => {
       respawnMax: number,
     ): RespawnStatus => {
       if (elapsedMinutes >= respawnMax) return "respawned";
-
       if (elapsedMinutes >= respawnMin) return "window-active";
 
       const remaining = respawnMin - elapsedMinutes;
@@ -123,11 +113,23 @@ export const MvpCard = ({ mvp }: MvpCardProps) => {
   return (
     <Card>
       <CardBody className="flex flex-row gap-4">
-        <Image
-          alt={name}
-          className="bg-default-100 p-3 h-30 w-30 object-contain"
-          src={imageUrl}
-        />
+        <div className="flex flex-col gap-2">
+          <Image
+            alt={name}
+            className="bg-default-100 p-3 h-30 w-30 object-contain"
+            src={imageUrl}
+          />
+          {lastDeathTime && storedMapPosition && (
+            <Button
+              size="sm"
+              startContent={<LocationPinIcon size={14} />}
+              variant="flat"
+              onPress={onOpenLocationModal}
+            >
+              Ver localização
+            </Button>
+          )}
+        </div>
         <div className="flex flex-col gap-1 flex-1 min-w-0">
           <h1 className="text-lg font-bold">{name}</h1>
           <div>
@@ -173,7 +175,7 @@ export const MvpCard = ({ mvp }: MvpCardProps) => {
           <Button
             color="danger"
             startContent={<SkullIcon size={16} />}
-            onPress={handleRegisterDeath}
+            onPress={onOpenRegisterModal}
           >
             Registrar Morte
           </Button>
