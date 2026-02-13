@@ -9,24 +9,45 @@ import { ClockIcon, SkullIcon } from "../icons";
 import { MvpCardProps } from "./mvpCard.interfaces";
 
 import { RespawnChipConfig, RespawnStatus } from "@/interfaces";
-import { formatCountdown, formatTime } from "@/utils";
+import {
+  formatCountdown,
+  formatTime,
+  getStoredDeathTime,
+  setStoredDeathTime,
+} from "@/utils";
 
 export const MvpCard = ({ mvp }: MvpCardProps) => {
-  const [lastDeathTime, setLastDeathTime] = useState<Date | null>(null);
+  const { id, name, level, respawnMin, respawnMax, map, imageUrl } = mvp;
+
+  const [lastDeathTime, setLastDeathTime] = useState<Date | null>(() =>
+    getStoredDeathTime(id),
+  );
   const [now, setNow] = useState(() => new Date());
 
-  const { name, level, respawnMin, respawnMax, map, imageUrl } = mvp;
-
   const chipConfig: RespawnChipConfig = {
-    far: { label: "Longe", color: "danger", variant: "solid" },
-    half: { label: "Metade", color: "warning", variant: "solid" },
-    near: { label: "Perto", color: "success", variant: "solid" },
+    far: {
+      label: "Longe",
+      className: "bg-[hsl(var(--respawn-red))] text-white border-transparent",
+    },
+    half: {
+      label: "Metade",
+      className:
+        "bg-[hsl(var(--respawn-yellow))] text-black border-transparent",
+    },
+    near: {
+      label: "Perto",
+      className: "bg-[hsl(var(--respawn-green))] text-white border-transparent",
+    },
     "window-active": {
       label: "Janela Ativa",
-      color: "success",
-      variant: "bordered",
+      className:
+        "border-2 border-[hsl(var(--respawn-green))] text-white animate-pulse-badge",
     },
-    respawned: { label: "RESNASCEU!", color: "success", variant: "solid" },
+    respawned: {
+      label: "RENASCEU!",
+      className:
+        "bg-[hsl(var(--respawn-green))] text-white border-transparent animate-pulse-badge",
+    },
   };
 
   useEffect(() => {
@@ -40,9 +61,10 @@ export const MvpCard = ({ mvp }: MvpCardProps) => {
   const handleRegisterDeath = useCallback(() => {
     const deathTime = new Date();
 
+    setStoredDeathTime(id, deathTime);
     setLastDeathTime(deathTime);
     setNow(deathTime);
-  }, []);
+  }, [id]);
 
   const elapsedMinutes = lastDeathTime
     ? (now.getTime() - lastDeathTime.getTime()) / 60000
@@ -125,9 +147,8 @@ export const MvpCard = ({ mvp }: MvpCardProps) => {
               <div className="flex items-center gap-2 flex-wrap">
                 {status && (
                   <Chip
-                    color={chipConfig[status].color}
+                    classNames={{ base: chipConfig[status].className }}
                     size="sm"
-                    variant={chipConfig[status].variant ?? "solid"}
                   >
                     {chipConfig[status].label}
                   </Chip>

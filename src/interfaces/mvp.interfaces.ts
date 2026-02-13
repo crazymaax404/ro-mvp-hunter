@@ -18,8 +18,7 @@ export type RespawnStatus =
 export type RespawnChipConfig = Record<
   RespawnStatus,
   {
-    color: "danger" | "success" | "warning";
+    className: string;
     label: string;
-    variant?: "bordered" | "flat" | "solid";
   }
 >;
