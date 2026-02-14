@@ -125,6 +125,11 @@ export const removeExpiredMvpRecords = (
   }
 };
 
+export const removeMvpRecord = (mvpId: string): void => {
+  if (typeof window === "undefined") return;
+  localStorage.removeItem(getMvpDeathStorageKey(mvpId));
+};
+
 export const clearAllMvpRecords = (): void => {
   if (typeof window === "undefined") return;
 

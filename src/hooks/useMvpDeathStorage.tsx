@@ -14,6 +14,7 @@ import {
   getMvpDeathStorageKey,
   getStoredDeathTime,
   removeExpiredMvpRecords,
+  removeMvpRecord,
   setStoredDeathTime,
 } from "@/utils/mvpDeathStorage";
 
@@ -22,6 +23,7 @@ type DeathTimesState = Record<string, Date | null>;
 type MvpStorageContextValue = {
   deathTimes: DeathTimesState;
   setDeathTime: (mvpId: string, date: Date) => void;
+  clearMvpRegister: (mvpId: string) => void;
   clearAllRegisters: () => void;
 };
 
@@ -96,6 +98,11 @@ export const MvpStorageProvider = ({
     setDeathTimes((prev) => ({ ...prev, [mvpId]: date }));
   }, []);
 
+  const clearMvpRegister = useCallback((mvpId: string) => {
+    removeMvpRecord(mvpId);
+    setDeathTimes((prev) => ({ ...prev, [mvpId]: null }));
+  }, []);
+
   const clearAllRegisters = useCallback(() => {
     clearAllMvpRecords();
     setDeathTimes((prev) => {
@@ -110,8 +117,8 @@ export const MvpStorageProvider = ({
   }, []);
 
   const value = useMemo<MvpStorageContextValue>(
-    () => ({ deathTimes, setDeathTime, clearAllRegisters }),
-    [deathTimes, setDeathTime, clearAllRegisters],
+    () => ({ deathTimes, setDeathTime, clearMvpRegister, clearAllRegisters }),
+    [deathTimes, setDeathTime, clearMvpRegister, clearAllRegisters],
   );
 
   return (

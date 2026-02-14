@@ -3,13 +3,15 @@ import { Card, CardBody } from "@heroui/card";
 import { Image } from "@heroui/image";
 import { Button } from "@heroui/button";
 import { Chip } from "@heroui/chip";
+import { Tooltip } from "@heroui/tooltip";
 
-import { ClockIcon, LocationPinIcon, SkullIcon } from "../icons";
+import { ClockIcon, LocationPinIcon, SkullIcon, TrashIcon } from "../icons";
 
 import { MvpCardProps } from "./mvpCard.interfaces";
 
 import { RespawnChipConfig, RespawnStatus } from "@/interfaces";
 import { formatCountdown, formatTime, getStoredMapPosition } from "@/utils";
+import { useMvpDeathStorage } from "@/hooks/useMvpDeathStorage";
 
 export const MvpCard = ({
   mvp,
@@ -17,6 +19,7 @@ export const MvpCard = ({
   onOpenLocationModal,
   onOpenRegisterModal,
 }: MvpCardProps) => {
+  const { clearMvpRegister } = useMvpDeathStorage();
   const { id, name, level, respawnMin, respawnMax, map, imageUrl } = mvp;
 
   const [now, setNow] = useState(() => new Date());
@@ -128,6 +131,24 @@ export const MvpCard = ({
             >
               Ver localização
             </Button>
+          )}
+          {lastDeathTime && (
+            <Tooltip
+              closeDelay={0}
+              content="Remover registro deste MVP"
+              placement="right"
+            >
+              <Button
+                isIconOnly
+                className="text-danger min-w-unit-8 min-h-unit-8"
+                color="danger"
+                size="sm"
+                variant="flat"
+                onPress={() => clearMvpRegister(id)}
+              >
+                <TrashIcon size={16} />
+              </Button>
+            </Tooltip>
           )}
         </div>
         <div className="flex flex-col gap-1 flex-1 min-w-0">
