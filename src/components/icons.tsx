@@ -210,3 +210,21 @@ export const TeleportIcon: React.FC<IconSvgProps> = ({
     <path d="M8.997 6.968H6.708V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v5.923a1 1 0 0 0 .966 1l1.937.061v7.404a.549.549 0 0 0 1.053.216l3.96-9.242a1 1 0 0 0-.92-1.394zM8.708 3v1.968h.289a3 3 0 0 1 2.757 4.181l-3.96 9.243a2.549 2.549 0 0 1-4.891-1.004v-5.466A3 3 0 0 1 0 8.923V3a3 3 0 0 1 3-3h2.708a3 3 0 0 1 3 3z" />
   </svg>
 );
+
+export const CompassIcon: React.FC<IconSvgProps> = ({
+  size = 16,
+  width,
+  height,
+  ...props
+}) => (
+  <svg
+    fill="currentColor"
+    height={size || height}
+    viewBox="0 0 24 24"
+    width={size || width}
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path d="M21 12a9 9 0 1 0-18 0a9 9 0 0 0 18 0ZM12 1c6.075 0 11 4.925 11 11s-4.925 11-11 11S1 18.075 1 12S5.925 1 12 1Zm5.435 5.565l-2.64 8.23l-8.23 2.64l2.64-8.23l8.23-2.64Zm-6.64 4.23l-1.138 3.548l3.547-1.138l1.138-3.548l-3.547 1.139Z" />
+  </svg>
+);

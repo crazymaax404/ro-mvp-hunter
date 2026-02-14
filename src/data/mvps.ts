@@ -234,6 +234,7 @@ export const mvpList: MvpData[] = [
     competitiveness: 0,
     findability: 1,
     hasTeleport: false,
+    teleportTip: "Calabouços, Fábrica de Brinquedos 2.",
   },
   {
     id: "boitata",
@@ -260,6 +261,7 @@ export const mvpList: MvpData[] = [
     competitiveness: 1,
     findability: 2,
     hasTeleport: false,
+    teleportTip: "Cidades, Nilfheim.",
   },
   {
     id: "leak",
@@ -325,6 +327,7 @@ export const mvpList: MvpData[] = [
     competitiveness: 2,
     findability: 1,
     hasTeleport: false,
+    teleportTip: "@go xmas, vá ao portal sul.",
   },
   {
     id: "samurai-specter",
@@ -390,6 +393,7 @@ export const mvpList: MvpData[] = [
     competitiveness: 2,
     findability: 2,
     hasTeleport: false,
+    teleportTip: "Ainda não sabemos como chegar lá.",
   },
   {
     id: "turtle-general",
@@ -585,6 +589,7 @@ export const mvpList: MvpData[] = [
     competitiveness: 1,
     findability: 0,
     hasTeleport: false,
+    teleportTip: "Calabouços, Piramide B2 - Modo Pesadelo.",
   },
   {
     id: "ifrit",
@@ -624,6 +629,8 @@ export const mvpList: MvpData[] = [
     competitiveness: 0,
     findability: 1,
     hasTeleport: false,
+    teleportTip:
+      "Instâncias, Maldição de Glast Heim, fale com Hugin's follower e pague 10.000z para entrar em 2nd floor Corridor.",
   },
   {
     id: "spider-chariot",
@@ -637,6 +644,8 @@ export const mvpList: MvpData[] = [
     competitiveness: 0,
     findability: 1,
     hasTeleport: false,
+    teleportTip:
+      "Cidades, Rock Ridge, vá dois mapas a direita e entre na mina.",
   },
   {
     id: "boss-meow",
@@ -650,6 +659,8 @@ export const mvpList: MvpData[] = [
     competitiveness: 2,
     findability: 2,
     hasTeleport: false,
+    teleportTip:
+      "Mapas 17.2 - Sage's Legacy, ba_maison, entre na casa localizada a direita, spot 6.",
   },
   {
     id: "time-holder",
@@ -663,6 +674,8 @@ export const mvpList: MvpData[] = [
     competitiveness: 0,
     findability: 2,
     hasTeleport: false,
+    teleportTip:
+      "Mapas 200+, Clock Tower, saia pelo portal, suba e fale com Belljamin Button, Go to 3rd floor.",
   },
   {
     id: "r48-85-bestia",
@@ -676,6 +689,7 @@ export const mvpList: MvpData[] = [
     competitiveness: 1,
     findability: 2,
     hasTeleport: false,
+    teleportTip: "Mapas 17.1 - Illusion, Rudus F2.",
   },
   {
     id: "rigid-muspellskol",
@@ -689,6 +703,7 @@ export const mvpList: MvpData[] = [
     competitiveness: 2,
     findability: 0,
     hasTeleport: false,
+    teleportTip: "Mapas 150+, Magdun F3.",
   },
   {
     id: "corrupted-dark-lord",
@@ -702,6 +717,8 @@ export const mvpList: MvpData[] = [
     competitiveness: 0,
     findability: 2,
     hasTeleport: false,
+    teleportTip:
+      "Instâncias, Maldição de Glast Heim, fale com Mage Nillem e entre no mapa.",
   },
   {
     id: "corrupted-spider-queen",
@@ -715,6 +732,8 @@ export const mvpList: MvpData[] = [
     competitiveness: 0,
     findability: 2,
     hasTeleport: false,
+    teleportTip:
+      "Instâncias, Maldição de Glast Heim, fale com Mage Nillem e entre no mapa.",
   },
   {
     id: "jungoliant",
@@ -728,6 +747,21 @@ export const mvpList: MvpData[] = [
     competitiveness: 0,
     findability: 2,
     hasTeleport: false,
+    teleportTip: "Mapas 150+, Einbech Dungeon.",
+  },
+  {
+    id: "bone-detardeurus",
+    name: "Bone Detardeurus",
+    level: 209,
+    respawnMin: 180,
+    respawnMax: 190,
+    map: "abyss_04",
+    imageUrl: "https://game.ragnaplace.com/ro/job/20618/0.png",
+    mapUrl: "https://game.ragnaplace.com/ro/bro/map/abyss_04.webp",
+    competitiveness: 1,
+    findability: 2,
+    hasTeleport: false,
+    teleportTip: "Mapas 150+, Abyss Lake",
   },
   {
     id: "burning-fang",
@@ -741,6 +775,7 @@ export const mvpList: MvpData[] = [
     competitiveness: 0,
     findability: 1,
     hasTeleport: false,
+    teleportTip: "Mapas 18.1 - Direction of Prayer, Oz Labyrinth F2.",
   },
   {
     id: "r001-bestia",
@@ -754,6 +789,7 @@ export const mvpList: MvpData[] = [
     competitiveness: 1,
     findability: 2,
     hasTeleport: false,
+    teleportTip: "Mapas 17.1 - Illusion, Rudus F4.",
   },
   {
     id: "the-one",
@@ -767,6 +803,21 @@ export const mvpList: MvpData[] = [
     competitiveness: 2,
     findability: 2,
     hasTeleport: false,
+    teleportTip: "Mapas 200+, Amicitia 02.",
+  },
+  {
+    id: "ultra-limacina",
+    name: "Ultra Limacina",
+    level: 245,
+    respawnMin: 360,
+    respawnMax: 370,
+    map: "jor_back3",
+    imageUrl: "https://game.ragnaplace.com/ro/job/21537/0.png",
+    mapUrl: "https://game.ragnaplace.com/ro/thro/map/jor_back3.webp",
+    competitiveness: 2,
+    findability: 1,
+    hasTeleport: false,
+    teleportTip: "Mapas 19.1 Issgard, Land of Snow Flowers, jor_back3.",
   },
   {
     id: "death-witch",
@@ -780,5 +831,20 @@ export const mvpList: MvpData[] = [
     competitiveness: 1,
     findability: 2,
     hasTeleport: false,
+    teleportTip: "Mapas 200+, Nilfheim DG 02.",
+  },
+  {
+    id: "goblin-king",
+    name: "Goblin King",
+    level: 255,
+    respawnMin: 360,
+    respawnMax: 370,
+    map: "clock_01",
+    imageUrl: "https://game.ragnaplace.com/ro/job/20118/0.png",
+    mapUrl: "https://game.ragnaplace.com/ro/iro/map/clock_01.webp",
+    competitiveness: 2,
+    findability: 2,
+    hasTeleport: false,
+    teleportTip: "Mapas 200+, Clock Tower.",
   },
 ];

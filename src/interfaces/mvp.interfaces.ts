@@ -14,6 +14,7 @@ export interface MvpData {
   competitiveness: CompetitivenessScore;
   findability: FindabilityScore;
   hasTeleport: boolean;
+  teleportTip?: string;
 }
 
 export type RespawnStatus =

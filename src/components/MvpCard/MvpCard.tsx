@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { Accordion, AccordionItem } from "@heroui/accordion";
 import { Card, CardBody } from "@heroui/card";
 import { Image } from "@heroui/image";
 import { Button } from "@heroui/button";
@@ -9,6 +10,7 @@ import {
   ClockIcon,
   FireIcon,
   LocationPinIcon,
+  CompassIcon,
   SearchMagnifyIcon,
   SkullIcon,
   TeleportIcon,
@@ -127,7 +129,7 @@ export const MvpCard = ({
 
   return (
     <Card>
-      <CardBody className="flex flex-row gap-4">
+      <CardBody className="flex flex-row gap-4 overflow-hidden">
         <div className="flex flex-col gap-2">
           <Image
             alt={name}
@@ -231,6 +233,28 @@ export const MvpCard = ({
           >
             Registrar Morte
           </Button>
+
+          {!mvp.hasTeleport && mvp.teleportTip && (
+            <Accordion className="border-b border-default-200 p-0">
+              <AccordionItem
+                key="teleport-tip"
+                classNames={{
+                  title: "text-sm text-default-500",
+                }}
+                startContent={
+                  <CompassIcon
+                    className="shrink-0 text-default-500"
+                    size={16}
+                  />
+                }
+                title="Como chegar lá?"
+              >
+                <p className="text-sm text-default-600 whitespace-pre-wrap">
+                  {mvp.teleportTip}
+                </p>
+              </AccordionItem>
+            </Accordion>
+          )}
         </div>
       </CardBody>
     </Card>
