@@ -102,3 +102,38 @@ export const setStoredMapPosition = (
     localStorage.setItem(key, JSON.stringify(record));
   } catch {}
 };
+
+export const removeExpiredMvpRecords = (
+  mvpIdToRespawnMax: Record<string, number>,
+): void => {
+  if (typeof window === "undefined") return;
+
+  const now = Date.now();
+
+  for (const mvpId of Object.keys(mvpIdToRespawnMax)) {
+    const key = getMvpDeathStorageKey(mvpId);
+    const record = parseRecord(localStorage.getItem(key));
+
+    if (!record) continue;
+
+    const deathTime = new Date(record.deathTime).getTime();
+    const respawnMaxMs = mvpIdToRespawnMax[mvpId] * 60 * 1000;
+
+    if (now > deathTime + respawnMaxMs) {
+      localStorage.removeItem(key);
+    }
+  }
+};
+
+export const clearAllMvpRecords = (): void => {
+  if (typeof window === "undefined") return;
+
+  const keysToRemove: string[] = [];
+
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+
+    if (key?.startsWith(STORAGE_PREFIX)) keysToRemove.push(key);
+  }
+  keysToRemove.forEach((key) => localStorage.removeItem(key));
+};

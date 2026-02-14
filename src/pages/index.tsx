@@ -6,32 +6,23 @@ import { mvpList } from "@/data/mvps";
 import { RegisterDeathModal } from "@/components/RegisterDeathModal/RegisterDeathModal";
 import { LocationModal } from "@/components/LocationModal/LocationModal";
 import { MvpData } from "@/interfaces";
-import { getStoredDeathTime, getStoredMapPosition } from "@/utils";
+import { getStoredMapPosition } from "@/utils";
+import { useMvpDeathStorage } from "@/hooks/useMvpDeathStorage";
+import { ClearAllDataModal } from "@/components/ClearAllDataModal";
 
 export default function IndexPage() {
+  const { deathTimes, setDeathTime } = useMvpDeathStorage();
+
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [selectedMvp, setSelectedMvp] = useState<MvpData>({} as MvpData);
-  const [deathTimes, setDeathTimes] = useState<Record<string, Date | null>>(
-    () => {
-      const initialTimes: Record<string, Date | null> = {};
-
-      mvpList.forEach((mvp) => {
-        initialTimes[mvp.id] = getStoredDeathTime(mvp.id);
-      });
-
-      return initialTimes;
-    },
-  );
+  const [isClearAllModalOpen, setIsClearAllModalOpen] = useState(false);
 
   const handleRegisteredDeath = useCallback(
     (mvpId: string, deathTime: Date) => {
-      setDeathTimes((prev) => ({
-        ...prev,
-        [mvpId]: deathTime,
-      }));
+      setDeathTime(mvpId, deathTime);
     },
-    [],
+    [setDeathTime],
   );
 
   const handleOpenRegisterModal = useCallback((mvp: MvpData) => {
@@ -52,12 +43,16 @@ export default function IndexPage() {
     setIsLocationModalOpen(false);
   }, []);
 
+  const handleOpenClearAllModal = useCallback(() => {
+    setIsClearAllModalOpen(true);
+  }, []);
+
   const storedMapPosition = selectedMvp
     ? getStoredMapPosition(selectedMvp.id)
     : null;
 
   return (
-    <DefaultLayout>
+    <DefaultLayout onOpenClearAllModal={handleOpenClearAllModal}>
       <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {mvpList.map((mvp) => (
@@ -77,7 +72,7 @@ export default function IndexPage() {
         mvp={selectedMvp}
         onClose={handleCloseRegisterModal}
         onRegistered={(deathTime) => {
-          if (selectedMvp) {
+          if (selectedMvp?.id) {
             handleRegisteredDeath(selectedMvp.id, deathTime);
           }
         }}
@@ -91,6 +86,11 @@ export default function IndexPage() {
           onClose={handleCloseLocationModal}
         />
       )}
+
+      <ClearAllDataModal
+        isClearAllModalOpen={isClearAllModalOpen}
+        setIsClearAllModalOpen={setIsClearAllModalOpen}
+      />
     </DefaultLayout>
   );
 }

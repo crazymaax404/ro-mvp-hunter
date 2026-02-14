@@ -1,12 +1,16 @@
 import { Route, Routes } from "react-router-dom";
 
+import { MvpStorageProvider } from "./hooks";
+
 import IndexPage from "@/pages";
 
 function App() {
   return (
-    <Routes>
-      <Route element={<IndexPage />} path="/" />
-    </Routes>
+    <MvpStorageProvider>
+      <Routes>
+        <Route element={<IndexPage />} path="/" />
+      </Routes>
+    </MvpStorageProvider>
   );
 }
 
