@@ -103,6 +103,8 @@ export const setStoredMapPosition = (
   } catch {}
 };
 
+const EXTRA_TIME_IN_DEAD_LIST_MS = 60 * 60 * 1000; // 1 hour
+
 export const removeExpiredMvpRecords = (
   mvpIdToRespawnMax: Record<string, number>,
 ): void => {
@@ -118,8 +120,9 @@ export const removeExpiredMvpRecords = (
 
     const deathTime = new Date(record.deathTime).getTime();
     const respawnMaxMs = mvpIdToRespawnMax[mvpId] * 60 * 1000;
+    const removeAfterMs = respawnMaxMs + EXTRA_TIME_IN_DEAD_LIST_MS;
 
-    if (now > deathTime + respawnMaxMs) {
+    if (now > deathTime + removeAfterMs) {
       localStorage.removeItem(key);
     }
   }
