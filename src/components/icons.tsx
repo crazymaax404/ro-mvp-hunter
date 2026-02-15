@@ -228,3 +228,23 @@ export const CompassIcon: React.FC<IconSvgProps> = ({
     <path d="M21 12a9 9 0 1 0-18 0a9 9 0 0 0 18 0ZM12 1c6.075 0 11 4.925 11 11s-4.925 11-11 11S1 18.075 1 12S5.925 1 12 1Zm5.435 5.565l-2.64 8.23l-8.23 2.64l2.64-8.23l8.23-2.64Zm-6.64 4.23l-1.138 3.548l3.547-1.138l1.138-3.548l-3.547 1.139Z" />
   </svg>
 );
+
+export const ExclamationIcon: React.FC<IconSvgProps> = ({
+  size = 16,
+  width,
+  height,
+  ...props
+}) => (
+  <svg
+    height={size || height}
+    viewBox="0 0 16 16"
+    width={size || width}
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M7.002 11a1 1 0 1 1 2 0a1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.553.553 0 0 1-1.1 0L7.1 4.995z"
+      fill="currentColor"
+    />
+  </svg>
+);

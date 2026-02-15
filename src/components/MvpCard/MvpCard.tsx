@@ -8,6 +8,7 @@ import { Tooltip } from "@heroui/tooltip";
 
 import {
   ClockIcon,
+  ExclamationIcon,
   FireIcon,
   LocationPinIcon,
   CompassIcon,
@@ -184,6 +185,13 @@ export const MvpCard = ({
                 content={infoStatus.hasTeleport.label}
                 icon={<TeleportIcon size={16} />}
               />
+              {mvp.doNotSpawnTomb && (
+                <MvpInfoBadge
+                  colorClass="bg-pink-500 text-white"
+                  content="Não spawna túmulo"
+                  icon={<ExclamationIcon size={16} />}
+                />
+              )}
             </div>
           </div>
           <div>

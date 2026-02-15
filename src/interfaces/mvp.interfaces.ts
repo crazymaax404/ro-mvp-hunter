@@ -15,6 +15,7 @@ export interface MvpData {
   findability: FindabilityScore;
   hasTeleport: boolean;
   teleportTip?: string;
+  doNotSpawnTomb?: boolean;
 }
 
 export type RespawnStatus =

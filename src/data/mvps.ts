@@ -262,6 +262,7 @@ export const mvpList: MvpData[] = [
     findability: 2,
     hasTeleport: false,
     teleportTip: "Cidades, Nilfheim.",
+    doNotSpawnTomb: true,
   },
   {
     id: "leak",
@@ -631,6 +632,7 @@ export const mvpList: MvpData[] = [
     hasTeleport: false,
     teleportTip:
       "Instâncias, Maldição de Glast Heim, fale com Hugin's follower e pague 10.000z para entrar em 2nd floor Corridor.",
+    doNotSpawnTomb: true,
   },
   {
     id: "spider-chariot",
