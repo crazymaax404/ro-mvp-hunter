@@ -31,8 +31,6 @@ export const RegisterDeathModal = ({
     y: number;
   } | null>(null);
 
-  const hasTime = timeValue !== null;
-
   const handleMapClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const target = e.currentTarget;
     const rect = target.getBoundingClientRect();
@@ -42,47 +40,38 @@ export const RegisterDeathModal = ({
     setPendingPosition({ x, y });
   }, []);
 
-  const handleAgora = useCallback(() => {
+  const handleNow = useCallback(() => {
     const now = new Date();
 
     setTimeValue(new Time(now.getHours(), now.getMinutes()));
   }, []);
 
-  const handleRegisterAtTime = useCallback(() => {
-    if (!timeValue) return;
-
+  const handleDeath = useCallback(() => {
     const now = new Date();
-    let deathDate = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate(),
-      timeValue.hour,
-      timeValue.minute,
-    );
+    let deathTime: Date;
 
-    // If the chosen time is in the future, example: it's 2:45 AM and the user entered 10:05 PM, it assumes the death occurred the previous day.
-    if (deathDate.getTime() > now.getTime()) {
-      deathDate = new Date(
+    if (timeValue) {
+      deathTime = new Date(
         now.getFullYear(),
         now.getMonth(),
-        now.getDate() - 1,
+        now.getDate(),
         timeValue.hour,
         timeValue.minute,
       );
+
+      // If the chosen time is in the future, assume the death occurred the previous day.
+      if (deathTime.getTime() > now.getTime()) {
+        deathTime = new Date(
+          now.getFullYear(),
+          now.getMonth(),
+          now.getDate() - 1,
+          timeValue.hour,
+          timeValue.minute,
+        );
+      }
+    } else {
+      deathTime = now;
     }
-
-    setStoredDeathRecord(id, {
-      deathTime: deathDate.toISOString(),
-      mapPosition: pendingPosition ?? undefined,
-    });
-    onRegistered(deathDate);
-    onClose();
-    setTimeValue(null);
-    setPendingPosition(null);
-  }, [id, timeValue, pendingPosition, onRegistered, onClose]);
-
-  const handleDiedNow = useCallback(() => {
-    const deathTime = new Date();
 
     setStoredDeathRecord(id, {
       deathTime: deathTime.toISOString(),
@@ -92,7 +81,7 @@ export const RegisterDeathModal = ({
     onClose();
     setTimeValue(null);
     setPendingPosition(null);
-  }, [id, pendingPosition, onRegistered, onClose]);
+  }, [id, timeValue, pendingPosition, onRegistered, onClose]);
 
   return (
     <Modal
@@ -110,6 +99,7 @@ export const RegisterDeathModal = ({
         <ModalBody>
           <p className="text-sm text-default-500">
             Informe o horário da morte e clique no mapa para marcar a posição.
+            Sem horário, será usado o momento atual.
           </p>
 
           <div className="flex flex-col gap-2">
@@ -127,7 +117,7 @@ export const RegisterDeathModal = ({
                 value={timeValue ?? undefined}
                 onChange={(v) => setTimeValue(v)}
               />
-              <Button size="sm" variant="flat" onPress={handleAgora}>
+              <Button size="sm" variant="flat" onPress={handleNow}>
                 Agora
               </Button>
             </div>
@@ -174,19 +164,10 @@ export const RegisterDeathModal = ({
         <ModalFooter>
           <Button
             color="danger"
-            isDisabled={!hasTime}
-            startContent={<ClockIcon size={16} />}
-            onPress={handleRegisterAtTime}
-          >
-            Registrar no horário
-          </Button>
-          <Button
-            color="default"
             startContent={<SkullIcon size={16} />}
-            variant="flat"
-            onPress={handleDiedNow}
+            onPress={handleDeath}
           >
-            Morreu agora!
+            Morreu!
           </Button>
         </ModalFooter>
       </ModalContent>
