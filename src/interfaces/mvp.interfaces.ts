@@ -1,3 +1,7 @@
+export type CompetitivenessScore = 0 | 1 | 2;
+
+export type FindabilityScore = 0 | 1 | 2;
+
 export interface MvpData {
   id: string;
   name: string;
@@ -7,6 +11,9 @@ export interface MvpData {
   map: string;
   imageUrl: string;
   mapUrl: string;
+  competitiveness: CompetitivenessScore;
+  findability: FindabilityScore;
+  hasTeleport: boolean;
 }
 
 export type RespawnStatus =
@@ -27,4 +34,22 @@ export type RespawnChipConfig = Record<
 export interface MvpDeathRecord {
   deathTime: string;
   mapPosition?: { x: number; y: number };
+}
+
+export interface MvpInfoStatus {
+  competitiveness: {
+    message: string;
+    colorClass: string;
+    level: CompetitivenessScore;
+  };
+  findability: {
+    message: string;
+    colorClass: string;
+    level: FindabilityScore;
+  };
+  hasTeleport: {
+    hasTeleport: boolean;
+    colorClass: string;
+    label: string;
+  };
 }

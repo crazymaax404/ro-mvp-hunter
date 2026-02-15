@@ -151,3 +151,62 @@ export const TrashIcon: React.FC<IconSvgProps> = ({
     />
   </svg>
 );
+
+export const FireIcon: React.FC<IconSvgProps> = ({
+  size = 16,
+  width,
+  height,
+  ...props
+}) => (
+  <svg
+    fill="none"
+    height={size || height}
+    stroke="currentColor"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    strokeWidth={2}
+    viewBox="0 0 24 24"
+    width={size || width}
+    {...props}
+  >
+    <path d="M6 9.7a8 8 0 1 0 10.4-1.4Q16 12 12 13q3-6-2-12q0 5-4 8.7" />
+  </svg>
+);
+
+export const SearchMagnifyIcon: React.FC<IconSvgProps> = ({
+  size = 16,
+  width,
+  height,
+  ...props
+}) => (
+  <svg
+    fill="currentColor"
+    fillRule="evenodd"
+    height={size || height}
+    viewBox="0 0 16 16"
+    width={size || width}
+    {...props}
+  >
+    <path
+      clipRule="evenodd"
+      d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06zM10.5 7a3.5 3.5 0 1 1-7 0a3.5 3.5 0 0 1 7 0"
+    />
+  </svg>
+);
+
+export const TeleportIcon: React.FC<IconSvgProps> = ({
+  size = 16,
+  width,
+  height,
+  ...props
+}) => (
+  <svg
+    fill="currentColor"
+    height={size || height}
+    viewBox="-6 -2 24 24"
+    width={size || width}
+    {...props}
+  >
+    <path d="M8.997 6.968H6.708V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v5.923a1 1 0 0 0 .966 1l1.937.061v7.404a.549.549 0 0 0 1.053.216l3.96-9.242a1 1 0 0 0-.92-1.394zM8.708 3v1.968h.289a3 3 0 0 1 2.757 4.181l-3.96 9.243a2.549 2.549 0 0 1-4.891-1.004v-5.466A3 3 0 0 1 0 8.923V3a3 3 0 0 1 3-3h2.708a3 3 0 0 1 3 3z" />
+  </svg>
+);

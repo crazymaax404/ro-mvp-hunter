@@ -10,6 +10,9 @@ export const mvpList: MvpData[] = [
     map: "lasa_dun01",
     imageUrl: "https://game.ragnaplace.com/ro/job/3505/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/lasa_dun01.webp",
+    competitiveness: 0,
+    findability: 1,
+    hasTeleport: true,
   },
   {
     id: "orc-hero",
@@ -20,6 +23,9 @@ export const mvpList: MvpData[] = [
     map: "gef_fild03",
     imageUrl: "https://game.ragnaplace.com/ro/job/1087/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/gef_fild03.webp",
+    competitiveness: 2,
+    findability: 2,
+    hasTeleport: true,
   },
   {
     id: "maya",
@@ -30,6 +36,9 @@ export const mvpList: MvpData[] = [
     map: "anthell02",
     imageUrl: "https://game.ragnaplace.com/ro/job/1147/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/anthell02.webp",
+    competitiveness: 2,
+    findability: 0,
+    hasTeleport: true,
   },
   {
     id: "orc-lord",
@@ -40,6 +49,9 @@ export const mvpList: MvpData[] = [
     map: "gef_fild10",
     imageUrl: "https://game.ragnaplace.com/ro/job/1190/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/gef_fild10.webp",
+    competitiveness: 2,
+    findability: 2,
+    hasTeleport: true,
   },
   {
     id: "eddga",
@@ -50,6 +62,9 @@ export const mvpList: MvpData[] = [
     map: "pay_fild10",
     imageUrl: "https://game.ragnaplace.com/ro/job/1115/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/pay_fild10.webp",
+    competitiveness: 1,
+    findability: 2,
+    hasTeleport: true,
   },
   {
     id: "golden-thief-bug",
@@ -60,6 +75,9 @@ export const mvpList: MvpData[] = [
     map: "prt_sewb4",
     imageUrl: "https://game.ragnaplace.com/ro/job/1086/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/prt_sewb4.webp",
+    competitiveness: 2,
+    findability: 1,
+    hasTeleport: true,
   },
   {
     id: "osiris",
@@ -70,6 +88,9 @@ export const mvpList: MvpData[] = [
     map: "moc_pryd06",
     imageUrl: "https://file5s.ratemyserver.net/mobs/1038.gif", // ragnaplace has a broken image
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/moc_pryd04.webp",
+    competitiveness: 0,
+    findability: 0,
+    hasTeleport: true,
   },
   {
     id: "amon-ra",
@@ -80,6 +101,9 @@ export const mvpList: MvpData[] = [
     map: "moc_pryd06",
     imageUrl: "https://game.ragnaplace.com/ro/job/1511/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/moc_pryd06.webp",
+    competitiveness: 1,
+    findability: 0,
+    hasTeleport: true,
   },
   {
     id: "phreeoni",
@@ -90,6 +114,9 @@ export const mvpList: MvpData[] = [
     map: "moc_fild17",
     imageUrl: "https://game.ragnaplace.com/ro/job/1159/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/moc_fild17.webp",
+    competitiveness: 2,
+    findability: 1,
+    hasTeleport: true,
   },
   {
     id: "dracula",
@@ -100,6 +127,9 @@ export const mvpList: MvpData[] = [
     map: "gef_dun01",
     imageUrl: "https://game.ragnaplace.com/ro/job/1389/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/gef_dun01.webp",
+    competitiveness: 0,
+    findability: 0,
+    hasTeleport: true,
   },
   {
     id: "doppelganger",
@@ -110,6 +140,9 @@ export const mvpList: MvpData[] = [
     map: "gef_dun02",
     imageUrl: "https://game.ragnaplace.com/ro/job/1046/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/gef_dun02.webp",
+    competitiveness: 0,
+    findability: 0,
+    hasTeleport: true,
   },
   {
     id: "mistress",
@@ -120,6 +153,9 @@ export const mvpList: MvpData[] = [
     map: "mjolnir_04",
     imageUrl: "https://game.ragnaplace.com/ro/job/1059/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/mjolnir_04.webp",
+    competitiveness: 1,
+    findability: 2,
+    hasTeleport: true,
   },
   {
     id: "moonlight",
@@ -130,6 +166,9 @@ export const mvpList: MvpData[] = [
     map: "pay_dun04",
     imageUrl: "https://game.ragnaplace.com/ro/job/1150/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/pay_dun04.webp",
+    competitiveness: 2,
+    findability: 0,
+    hasTeleport: true,
   },
   {
     id: "lady-tanee",
@@ -140,6 +179,9 @@ export const mvpList: MvpData[] = [
     map: "ayo_dun02",
     imageUrl: "https://game.ragnaplace.com/ro/job/1688/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/ayo_dun02.webp",
+    competitiveness: 2,
+    findability: 2,
+    hasTeleport: true,
   },
   {
     id: "baphomet",
@@ -150,6 +192,9 @@ export const mvpList: MvpData[] = [
     map: "prt_maze03",
     imageUrl: "https://game.ragnaplace.com/ro/job/1039/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/prt_maze03.webp",
+    competitiveness: 1,
+    findability: 2,
+    hasTeleport: true,
   },
   {
     id: "pharaoh",
@@ -160,6 +205,9 @@ export const mvpList: MvpData[] = [
     map: "in_sphinx5",
     imageUrl: "https://game.ragnaplace.com/ro/job/1157/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/in_sphinx5.webp",
+    competitiveness: 0,
+    findability: 1,
+    hasTeleport: true,
   },
   {
     id: "drake",
@@ -170,6 +218,9 @@ export const mvpList: MvpData[] = [
     map: "treasure02",
     imageUrl: "https://game.ragnaplace.com/ro/job/1112/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/treasure02.webp",
+    competitiveness: 2,
+    findability: 0,
+    hasTeleport: true,
   },
   {
     id: "stormy-knight",
@@ -180,6 +231,9 @@ export const mvpList: MvpData[] = [
     map: "xmas_dun02",
     imageUrl: "https://game.ragnaplace.com/ro/job/1251/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/xmas_dun02.webp",
+    competitiveness: 0,
+    findability: 1,
+    hasTeleport: false,
   },
   {
     id: "boitata",
@@ -190,6 +244,9 @@ export const mvpList: MvpData[] = [
     map: "bra_dun02",
     imageUrl: "https://game.ragnaplace.com/ro/job/2068/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/bra_dun02.webp",
+    competitiveness: 1,
+    findability: 1,
+    hasTeleport: true,
   },
   {
     id: "lord-of-the-dead",
@@ -200,6 +257,9 @@ export const mvpList: MvpData[] = [
     map: "niflheim",
     imageUrl: "https://game.ragnaplace.com/ro/job/1373/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/niflheim.webp",
+    competitiveness: 1,
+    findability: 2,
+    hasTeleport: false,
   },
   {
     id: "leak",
@@ -210,6 +270,9 @@ export const mvpList: MvpData[] = [
     map: "dew_dun01",
     imageUrl: "https://game.ragnaplace.com/ro/job/2156/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/dew_dun01.webp",
+    competitiveness: 0,
+    findability: 0,
+    hasTeleport: true,
   },
   {
     id: "dark-lord",
@@ -220,6 +283,9 @@ export const mvpList: MvpData[] = [
     map: "gl_chyard",
     imageUrl: "https://game.ragnaplace.com/ro/job/1272/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/gl_chyard.webp",
+    competitiveness: 0,
+    findability: 2,
+    hasTeleport: true,
   },
   {
     id: "gopinich",
@@ -230,6 +296,9 @@ export const mvpList: MvpData[] = [
     map: "mosk_dun03",
     imageUrl: "https://game.ragnaplace.com/ro/job/1885/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/mosk_dun03.webp",
+    competitiveness: 1,
+    findability: 0,
+    hasTeleport: true,
   },
   {
     id: "white-lady",
@@ -240,6 +309,9 @@ export const mvpList: MvpData[] = [
     map: "lou_dun03",
     imageUrl: "https://game.ragnaplace.com/ro/job/1630/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/lou_dun03.webp",
+    competitiveness: 0,
+    findability: 2,
+    hasTeleport: true,
   },
   {
     id: "hatii",
@@ -250,6 +322,9 @@ export const mvpList: MvpData[] = [
     map: "xmas_fild01",
     imageUrl: "https://game.ragnaplace.com/ro/job/1252/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/xmas_fild01.webp",
+    competitiveness: 2,
+    findability: 1,
+    hasTeleport: false,
   },
   {
     id: "samurai-specter",
@@ -260,6 +335,9 @@ export const mvpList: MvpData[] = [
     map: "ama_dun03",
     imageUrl: "https://game.ragnaplace.com/ro/job/1492/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/ama_dun03.webp",
+    competitiveness: 0,
+    findability: 2,
+    hasTeleport: true,
   },
   {
     id: "rsx-0806",
@@ -270,6 +348,9 @@ export const mvpList: MvpData[] = [
     map: "ein_dun02",
     imageUrl: "https://game.ragnaplace.com/ro/job/1623/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/ein_dun02.webp",
+    competitiveness: 2,
+    findability: 2,
+    hasTeleport: true,
   },
   {
     id: "evil-snake-lord",
@@ -280,6 +361,9 @@ export const mvpList: MvpData[] = [
     map: "gon_dun03",
     imageUrl: "https://game.ragnaplace.com/ro/job/1418/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/gon_dun03.webp",
+    competitiveness: 0,
+    findability: 0,
+    hasTeleport: true,
   },
   {
     id: "tao-gunka",
@@ -290,6 +374,9 @@ export const mvpList: MvpData[] = [
     map: "beach_dun",
     imageUrl: "https://game.ragnaplace.com/ro/job/1583/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/beach_dun.webp",
+    competitiveness: 2,
+    findability: 1,
+    hasTeleport: true,
   },
   {
     id: "venomous-chimera",
@@ -300,6 +387,9 @@ export const mvpList: MvpData[] = [
     map: "slabw01",
     imageUrl: "https://game.ragnaplace.com/ro/job/3633/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/slabw01.webp",
+    competitiveness: 2,
+    findability: 2,
+    hasTeleport: false,
   },
   {
     id: "turtle-general",
@@ -310,6 +400,9 @@ export const mvpList: MvpData[] = [
     map: "tur_dun04",
     imageUrl: "https://game.ragnaplace.com/ro/job/1312/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/tur_dun04.webp",
+    competitiveness: 1,
+    findability: 0,
+    hasTeleport: true,
   },
   {
     id: "atroce-ra_fild03",
@@ -320,6 +413,9 @@ export const mvpList: MvpData[] = [
     map: "ra_fild03",
     imageUrl: "https://game.ragnaplace.com/ro/job/1785/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/ra_fild03.webp",
+    competitiveness: 1,
+    findability: 2,
+    hasTeleport: true,
   },
   {
     id: "atroce-ra_fild04",
@@ -330,6 +426,9 @@ export const mvpList: MvpData[] = [
     map: "ra_fild04",
     imageUrl: "https://game.ragnaplace.com/ro/job/1785/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/ra_fild04.webp",
+    competitiveness: 1,
+    findability: 2,
+    hasTeleport: true,
   },
   {
     id: "atroce-ve_fild01",
@@ -340,6 +439,9 @@ export const mvpList: MvpData[] = [
     map: "ve_fild01",
     imageUrl: "https://game.ragnaplace.com/ro/job/1785/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/ve_fild01.webp",
+    competitiveness: 1,
+    findability: 2,
+    hasTeleport: true,
   },
   {
     id: "atroce-ve_fild02",
@@ -350,6 +452,9 @@ export const mvpList: MvpData[] = [
     map: "ve_fild02",
     imageUrl: "https://game.ragnaplace.com/ro/job/1785/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/ve_fild02.webp",
+    competitiveness: 1,
+    findability: 2,
+    hasTeleport: true,
   },
   {
     id: "kraken",
@@ -360,6 +465,9 @@ export const mvpList: MvpData[] = [
     map: "iz_dun05",
     imageUrl: "https://game.ragnaplace.com/ro/job/2202/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/iz_dun05.webp",
+    competitiveness: 2,
+    findability: 2,
+    hasTeleport: true,
   },
   {
     id: "kiel-d-01",
@@ -370,6 +478,9 @@ export const mvpList: MvpData[] = [
     map: "kh_dun02",
     imageUrl: "https://game.ragnaplace.com/ro/job/1734/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/kh_dun02.webp",
+    competitiveness: 1,
+    findability: 2,
+    hasTeleport: true,
   },
   {
     id: "vesper",
@@ -380,6 +491,9 @@ export const mvpList: MvpData[] = [
     map: "jupe_core",
     imageUrl: "https://game.ragnaplace.com/ro/job/2106/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/jupe_core.webp",
+    competitiveness: 1,
+    findability: 0,
+    hasTeleport: true,
   },
   {
     id: "detardeurus",
@@ -390,6 +504,9 @@ export const mvpList: MvpData[] = [
     map: "abyss_03",
     imageUrl: "https://game.ragnaplace.com/ro/job/1719/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/abyss_03.webp",
+    competitiveness: 2,
+    findability: 1,
+    hasTeleport: true,
   },
   {
     id: "fallen-bishop",
@@ -400,6 +517,9 @@ export const mvpList: MvpData[] = [
     map: "abbey02",
     imageUrl: "https://game.ragnaplace.com/ro/job/2107/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/abbey02.webp",
+    competitiveness: 1,
+    findability: 2,
+    hasTeleport: true,
   },
   {
     id: "gloom-under-night",
@@ -410,6 +530,9 @@ export const mvpList: MvpData[] = [
     map: "ra_san05",
     imageUrl: "https://game.ragnaplace.com/ro/job/2108/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/ra_san05.webp",
+    competitiveness: 2,
+    findability: 2,
+    hasTeleport: true,
   },
   {
     id: "scaraba-queen",
@@ -420,6 +543,9 @@ export const mvpList: MvpData[] = [
     map: "dic_dun02",
     imageUrl: "https://game.ragnaplace.com/ro/job/2087/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/dic_dun02.webp",
+    competitiveness: 1,
+    findability: 2,
+    hasTeleport: true,
   },
   {
     id: "gold-queen-scaraba",
@@ -430,6 +556,9 @@ export const mvpList: MvpData[] = [
     map: "dic_dun03",
     imageUrl: "https://game.ragnaplace.com/ro/job/2165/0.png",
     mapUrl: "https://file5s.ratemyserver.net/maps_xl/dic_dun03.gif", // ragnaplace has a broken image
+    competitiveness: 1,
+    findability: 2,
+    hasTeleport: true,
   },
   {
     id: "valkyrie-randgris",
@@ -440,6 +569,9 @@ export const mvpList: MvpData[] = [
     map: "odin_tem03",
     imageUrl: "https://game.ragnaplace.com/ro/job/1751/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/odin_tem03.webp",
+    competitiveness: 2,
+    findability: 2,
+    hasTeleport: true,
   },
   {
     id: "nightmare-amon-ra",
@@ -450,6 +582,9 @@ export const mvpList: MvpData[] = [
     map: "moc_prydn2",
     imageUrl: "https://game.ragnaplace.com/ro/job/2362/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/moc_prydn2.webp",
+    competitiveness: 1,
+    findability: 0,
+    hasTeleport: false,
   },
   {
     id: "ifrit",
@@ -460,6 +595,9 @@ export const mvpList: MvpData[] = [
     map: "thor_v03",
     imageUrl: "https://game.ragnaplace.com/ro/job/2110/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/thor_v03.webp",
+    competitiveness: 2,
+    findability: 2,
+    hasTeleport: true,
   },
   {
     id: "beelzebub",
@@ -470,6 +608,9 @@ export const mvpList: MvpData[] = [
     map: "abbey03",
     imageUrl: "https://game.ragnaplace.com/ro/job/1874/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/abbey03.webp",
+    competitiveness: 2,
+    findability: 2,
+    hasTeleport: true,
   },
   {
     id: "nightmare-baphomet",
@@ -480,6 +621,9 @@ export const mvpList: MvpData[] = [
     map: "gl_cas02_",
     imageUrl: "https://game.ragnaplace.com/ro/job/2483/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/gl_cas02_.webp",
+    competitiveness: 0,
+    findability: 1,
+    hasTeleport: false,
   },
   {
     id: "spider-chariot",
@@ -490,6 +634,9 @@ export const mvpList: MvpData[] = [
     map: "rockmi1",
     imageUrl: "https://game.ragnaplace.com/ro/job/3741/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/rockmi1.webp",
+    competitiveness: 0,
+    findability: 1,
+    hasTeleport: false,
   },
   {
     id: "boss-meow",
@@ -500,6 +647,9 @@ export const mvpList: MvpData[] = [
     map: "ba_lost",
     imageUrl: "https://game.ragnaplace.com/ro/job/20648/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/ba_lost.webp",
+    competitiveness: 2,
+    findability: 2,
+    hasTeleport: false,
   },
   {
     id: "time-holder",
@@ -510,6 +660,9 @@ export const mvpList: MvpData[] = [
     map: "c_tower3_",
     imageUrl: "https://game.ragnaplace.com/ro/job/3074/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/c_tower3_.webp",
+    competitiveness: 0,
+    findability: 2,
+    hasTeleport: false,
   },
   {
     id: "r48-85-bestia",
@@ -520,6 +673,9 @@ export const mvpList: MvpData[] = [
     map: "sp_rudus2",
     imageUrl: "https://game.ragnaplace.com/ro/job/20381/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/sp_rudus2.webp",
+    competitiveness: 1,
+    findability: 2,
+    hasTeleport: false,
   },
   {
     id: "rigid-muspellskol",
@@ -530,6 +686,9 @@ export const mvpList: MvpData[] = [
     map: "mag_dun03",
     imageUrl: "https://game.ragnaplace.com/ro/job/20419/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/mag_dun03.webp",
+    competitiveness: 2,
+    findability: 0,
+    hasTeleport: false,
   },
   {
     id: "corrupted-dark-lord",
@@ -540,6 +699,9 @@ export const mvpList: MvpData[] = [
     map: "gl_cas01_",
     imageUrl: "https://game.ragnaplace.com/ro/job/20422/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/gl_cas01_.webp",
+    competitiveness: 0,
+    findability: 2,
+    hasTeleport: false,
   },
   {
     id: "corrupted-spider-queen",
@@ -550,6 +712,9 @@ export const mvpList: MvpData[] = [
     map: "gl_cas01_",
     imageUrl: "https://game.ragnaplace.com/ro/job/20421/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/gl_cas01_.webp",
+    competitiveness: 0,
+    findability: 2,
+    hasTeleport: false,
   },
   {
     id: "jungoliant",
@@ -560,6 +725,9 @@ export const mvpList: MvpData[] = [
     map: "ein_dun03",
     imageUrl: "https://game.ragnaplace.com/ro/job/20601/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/ein_dun03.webp",
+    competitiveness: 0,
+    findability: 2,
+    hasTeleport: false,
   },
   {
     id: "burning-fang",
@@ -570,6 +738,9 @@ export const mvpList: MvpData[] = [
     map: "oz_dun02",
     imageUrl: "https://game.ragnaplace.com/ro/job/21301/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/oz_dun02.webp",
+    competitiveness: 0,
+    findability: 1,
+    hasTeleport: false,
   },
   {
     id: "r001-bestia",
@@ -580,6 +751,9 @@ export const mvpList: MvpData[] = [
     map: "sp_rudus4",
     imageUrl: "https://game.ragnaplace.com/ro/job/20934/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/sp_rudus4.webp",
+    competitiveness: 1,
+    findability: 2,
+    hasTeleport: false,
   },
   {
     id: "the-one",
@@ -590,6 +764,9 @@ export const mvpList: MvpData[] = [
     map: "amicitia2",
     imageUrl: "https://game.ragnaplace.com/ro/job/20928/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/amicitia2.webp",
+    competitiveness: 2,
+    findability: 2,
+    hasTeleport: false,
   },
   {
     id: "death-witch",
@@ -600,5 +777,8 @@ export const mvpList: MvpData[] = [
     map: "nif_dun02",
     imageUrl: "https://game.ragnaplace.com/ro/job/20943/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/nif_dun02.webp",
+    competitiveness: 1,
+    findability: 2,
+    hasTeleport: false,
   },
 ];

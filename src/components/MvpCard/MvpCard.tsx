@@ -5,13 +5,23 @@ import { Button } from "@heroui/button";
 import { Chip } from "@heroui/chip";
 import { Tooltip } from "@heroui/tooltip";
 
-import { ClockIcon, LocationPinIcon, SkullIcon, TrashIcon } from "../icons";
+import {
+  ClockIcon,
+  FireIcon,
+  LocationPinIcon,
+  SearchMagnifyIcon,
+  SkullIcon,
+  TeleportIcon,
+  TrashIcon,
+} from "../icons";
+import { MvpInfoBadge } from "../MvpInfoBadge/MvpInfoBadge";
 
 import { MvpCardProps } from "./mvpCard.interfaces";
 
 import { RespawnChipConfig, RespawnStatus } from "@/interfaces";
 import { formatCountdown, formatTime, getStoredMapPosition } from "@/utils";
 import { useMvpDeathStorage } from "@/hooks/useMvpDeathStorage";
+import { useMvpInfoStatus } from "@/hooks/useMvpInfoStatus";
 
 export const MvpCard = ({
   mvp,
@@ -20,6 +30,8 @@ export const MvpCard = ({
   onOpenRegisterModal,
 }: MvpCardProps) => {
   const { clearMvpRegister } = useMvpDeathStorage();
+  const infoStatus = useMvpInfoStatus(mvp);
+
   const { id, name, level, respawnMin, respawnMax, map, imageUrl } = mvp;
 
   const [now, setNow] = useState(() => new Date());
@@ -152,7 +164,26 @@ export const MvpCard = ({
           )}
         </div>
         <div className="flex flex-col gap-1 flex-1 min-w-0">
-          <h1 className="text-lg font-bold">{name}</h1>
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <h1 className="text-lg font-bold">{name}</h1>
+            <div className="flex items-center gap-1 shrink-0">
+              <MvpInfoBadge
+                colorClass={infoStatus.competitiveness.colorClass}
+                content={infoStatus.competitiveness.message}
+                icon={<FireIcon size={16} />}
+              />
+              <MvpInfoBadge
+                colorClass={infoStatus.findability.colorClass}
+                content={infoStatus.findability.message}
+                icon={<SearchMagnifyIcon size={16} />}
+              />
+              <MvpInfoBadge
+                colorClass={infoStatus.hasTeleport.colorClass}
+                content={infoStatus.hasTeleport.label}
+                icon={<TeleportIcon size={16} />}
+              />
+            </div>
+          </div>
           <div>
             <p className="text-sm text-default-500">
               Lv. {level} · {map}
