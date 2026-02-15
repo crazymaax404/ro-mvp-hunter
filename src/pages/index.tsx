@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo } from "react";
+import { Accordion, AccordionItem } from "@heroui/accordion";
 
 import DefaultLayout from "@/layouts/default";
 import { MvpCard } from "@/components/MvpCard/MvpCard";
@@ -78,17 +79,27 @@ export default function IndexPage() {
   return (
     <DefaultLayout onOpenClearAllModal={handleOpenClearAllModal}>
       <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-6xl">
-          {deadList.map((mvp) => (
-            <MvpCard
-              key={mvp.id}
-              lastDeathTime={deathTimes[mvp.id]}
-              mvp={mvp}
-              onOpenLocationModal={() => handleOpenLocationModal(mvp)}
-              onOpenRegisterModal={() => handleOpenRegisterModal(mvp)}
-            />
-          ))}
-        </div>
+        <Accordion variant="bordered">
+          <AccordionItem
+            key="dead"
+            classNames={{
+              title: "text-lg font-bold",
+              content:
+                "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-6xl p-6",
+            }}
+            title="Mortos"
+          >
+            {deadList.map((mvp) => (
+              <MvpCard
+                key={mvp.id}
+                lastDeathTime={deathTimes[mvp.id]}
+                mvp={mvp}
+                onOpenLocationModal={() => handleOpenLocationModal(mvp)}
+                onOpenRegisterModal={() => handleOpenRegisterModal(mvp)}
+              />
+            ))}
+          </AccordionItem>
+        </Accordion>
         <div className="w-full max-w-6xl border-b border-neutral-500/60 border-dashed my-2" />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-6xl">
           {aliveList.map((mvp) => (
