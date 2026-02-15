@@ -811,7 +811,7 @@ export const mvpList: MvpData[] = [
     id: "ultra-limacina",
     name: "Ultra Limacina",
     level: 245,
-    respawnMin: 320,
+    respawnMin: 420,
     respawnMax: 430,
     map: "jor_back3",
     imageUrl: "https://game.ragnaplace.com/ro/job/21537/0.png",
