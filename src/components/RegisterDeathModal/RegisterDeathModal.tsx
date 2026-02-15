@@ -51,20 +51,31 @@ export const RegisterDeathModal = ({
   const handleRegisterAtTime = useCallback(() => {
     if (!timeValue) return;
 
-    const today = new Date();
-    const deathTime = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate(),
+    const now = new Date();
+    let deathDate = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
       timeValue.hour,
       timeValue.minute,
     );
 
+    // If the chosen time is in the future, example: it's 2:45 AM and the user entered 10:05 PM, it assumes the death occurred the previous day.
+    if (deathDate.getTime() > now.getTime()) {
+      deathDate = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() - 1,
+        timeValue.hour,
+        timeValue.minute,
+      );
+    }
+
     setStoredDeathRecord(id, {
-      deathTime: deathTime.toISOString(),
+      deathTime: deathDate.toISOString(),
       mapPosition: pendingPosition ?? undefined,
     });
-    onRegistered(deathTime);
+    onRegistered(deathDate);
     onClose();
     setTimeValue(null);
     setPendingPosition(null);

@@ -75,15 +75,28 @@ export const MvpCard = ({
 
   const storedMapPosition = lastDeathTime ? getStoredMapPosition(id) : null;
 
-  const elapsedMinutes = lastDeathTime
-    ? (now.getTime() - lastDeathTime.getTime()) / 60000
+  // If the death was recorded with the wrong date, example: The following day with the time of the previous day, the lastDeathTime may be in the future. We adjust it to the last occurrence in the past so that the timer and window calculations are correct.
+  const effectiveDeathTime = (() => {
+    if (!lastDeathTime) return null;
+    const oneDayMs = 24 * 60 * 60 * 1000;
+    let effective = new Date(lastDeathTime.getTime());
+
+    while (effective.getTime() > now.getTime()) {
+      effective = new Date(effective.getTime() - oneDayMs);
+    }
+
+    return effective;
+  })();
+
+  const elapsedMinutes = effectiveDeathTime
+    ? (now.getTime() - effectiveDeathTime.getTime()) / 60000
     : 0;
 
-  const windowStart = lastDeathTime
-    ? new Date(lastDeathTime.getTime() + respawnMin * 60000)
+  const windowStart = effectiveDeathTime
+    ? new Date(effectiveDeathTime.getTime() + respawnMin * 60000)
     : null;
-  const windowEnd = lastDeathTime
-    ? new Date(lastDeathTime.getTime() + respawnMax * 60000)
+  const windowEnd = effectiveDeathTime
+    ? new Date(effectiveDeathTime.getTime() + respawnMax * 60000)
     : null;
 
   let countdownSeconds = 0;
