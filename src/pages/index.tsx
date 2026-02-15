@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 
 import DefaultLayout from "@/layouts/default";
 import { MvpCard } from "@/components/MvpCard/MvpCard";
@@ -12,6 +12,30 @@ import { ClearAllDataModal } from "@/components/ClearAllDataModal";
 
 export default function IndexPage() {
   const { deathTimes, setDeathTime } = useMvpDeathStorage();
+
+  const { aliveList, deadList } = useMemo(() => {
+    const alive: MvpData[] = [];
+    const dead: MvpData[] = [];
+
+    mvpList.forEach((mvp) => {
+      if (deathTimes[mvp.id]) {
+        dead.push(mvp);
+      } else {
+        alive.push(mvp);
+      }
+    });
+    alive.sort((a, b) => a.level - b.level);
+    dead.sort((a, b) => {
+      const deathA = deathTimes[a.id]!.getTime();
+      const deathB = deathTimes[b.id]!.getTime();
+      const respawnAtA = deathA + a.respawnMin * 60000;
+      const respawnAtB = deathB + b.respawnMin * 60000;
+
+      return respawnAtA - respawnAtB;
+    });
+
+    return { aliveList: alive, deadList: dead };
+  }, [deathTimes]);
 
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
@@ -54,8 +78,20 @@ export default function IndexPage() {
   return (
     <DefaultLayout onOpenClearAllModal={handleOpenClearAllModal}>
       <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {mvpList.map((mvp) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-6xl">
+          {deadList.map((mvp) => (
+            <MvpCard
+              key={mvp.id}
+              lastDeathTime={deathTimes[mvp.id]}
+              mvp={mvp}
+              onOpenLocationModal={() => handleOpenLocationModal(mvp)}
+              onOpenRegisterModal={() => handleOpenRegisterModal(mvp)}
+            />
+          ))}
+        </div>
+        <div className="w-full max-w-6xl border-b border-neutral-500/60 border-dashed my-2" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-6xl">
+          {aliveList.map((mvp) => (
             <MvpCard
               key={mvp.id}
               lastDeathTime={deathTimes[mvp.id]}
