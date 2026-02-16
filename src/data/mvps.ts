@@ -560,7 +560,7 @@ export const mvpList: MvpData[] = [
     respawnMax: 130,
     map: "dic_dun03",
     imageUrl: "https://game.ragnaplace.com/ro/job/2165/0.png",
-    mapUrl: "https://file5s.ratemyserver.net/maps_xl/dic_dun03.gif", // ragnaplace has a broken image
+    mapUrl: "https://game.ragnaplace.com/ro/iro/map/dic_dun02.webp", // ragnaplace has a broken image, but dic_dun02 is the same as dic_dun03
     competitiveness: 1,
     findability: 2,
     hasTeleport: true,
@@ -697,8 +697,8 @@ export const mvpList: MvpData[] = [
     id: "rigid-muspellskol",
     name: "Rigid Muspellskol",
     level: 188,
-    respawnMin: 90,
-    respawnMax: 100,
+    respawnMin: 120,
+    respawnMax: 130,
     map: "mag_dun03",
     imageUrl: "https://game.ragnaplace.com/ro/job/20419/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/mag_dun03.webp",
