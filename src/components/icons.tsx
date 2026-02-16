@@ -248,3 +248,23 @@ export const ExclamationIcon: React.FC<IconSvgProps> = ({
     />
   </svg>
 );
+
+export const CrossIcon: React.FC<IconSvgProps> = ({
+  size = 16,
+  width,
+  height,
+  ...props
+}) => (
+  <svg
+    height={size || height}
+    viewBox="0 0 20 20"
+    width={size || width}
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M0 10a10 10 0 1 1 20 0a10 10 0 0 1-20 0zm16.32-4.9L5.09 16.31A8 8 0 0 0 16.32 5.09zm-1.41-1.42A8 8 0 0 0 3.68 14.91L14.91 3.68z"
+      fill="currentColor"
+    />
+  </svg>
+);

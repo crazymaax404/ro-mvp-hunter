@@ -848,6 +848,7 @@ export const mvpList: MvpData[] = [
     findability: 1,
     hasTeleport: false,
     teleportTip: "Mapas 19.1 Issgard, Land of Snow Flowers, jor_back3.",
+    givePoints: false,
   },
   {
     id: "death-witch",
@@ -876,5 +877,6 @@ export const mvpList: MvpData[] = [
     findability: 2,
     hasTeleport: false,
     teleportTip: "Mapas 200+, Clock Tower.",
+    givePoints: false,
   },
 ];

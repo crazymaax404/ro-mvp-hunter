@@ -16,6 +16,7 @@ export interface MvpData {
   hasTeleport: boolean;
   teleportTip?: string;
   doNotSpawnTomb?: boolean;
+  givePoints?: boolean;
 }
 
 export type RespawnStatus =

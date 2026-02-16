@@ -8,6 +8,7 @@ import { Tooltip } from "@heroui/tooltip";
 
 import {
   ClockIcon,
+  CrossIcon,
   ExclamationIcon,
   FireIcon,
   LocationPinIcon,
@@ -203,6 +204,13 @@ export const MvpCard = ({
                   colorClass="bg-pink-500 text-white"
                   content="Não spawna túmulo"
                   icon={<ExclamationIcon size={16} />}
+                />
+              )}
+              {mvp.givePoints === false && (
+                <MvpInfoBadge
+                  colorClass="bg-purple-900 text-white"
+                  content="Não dá pontos MvP"
+                  icon={<CrossIcon className="text-white" size={16} />}
                 />
               )}
             </div>
