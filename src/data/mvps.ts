@@ -291,6 +291,21 @@ export const mvpList: MvpData[] = [
     hasTeleport: true,
   },
   {
+    id: "dark-lord-_",
+    name: "Dark Lord",
+    level: 96,
+    respawnMin: 60,
+    respawnMax: 70,
+    map: "gl_chyard_",
+    imageUrl: "https://game.ragnaplace.com/ro/job/1272/0.png",
+    mapUrl: "https://game.ragnaplace.com/ro/iro/map/gl_chyard.webp_",
+    competitiveness: 0,
+    findability: 2,
+    hasTeleport: false,
+    teleportTip:
+      "Instâncias, Maldição de Glast Heim, fale com Mage Nillem e page 5000z para entrar em Monastery Cemetery.",
+  },
+  {
     id: "gopinich",
     name: "Gopinich",
     level: 97,
