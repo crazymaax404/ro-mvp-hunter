@@ -298,7 +298,7 @@ export const mvpList: MvpData[] = [
     respawnMax: 70,
     map: "gl_chyard_",
     imageUrl: "https://game.ragnaplace.com/ro/job/1272/0.png",
-    mapUrl: "https://game.ragnaplace.com/ro/iro/map/gl_chyard.webp_",
+    mapUrl: "https://game.ragnaplace.com/ro/iro/map/gl_chyard_.webp",
     competitiveness: 0,
     findability: 2,
     hasTeleport: false,
