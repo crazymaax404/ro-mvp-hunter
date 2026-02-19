@@ -14,7 +14,7 @@ import { mvpList } from "@/data/mvps";
 import {
   deleteAllDeaths,
   deleteDeath,
-  fetchDeathsForUser,
+  fetchAllDeaths,
   upsertDeath,
 } from "@/lib/mvpDeathsSupabase";
 import { useAuth } from "@/contexts/AuthContext";
@@ -81,21 +81,21 @@ export const MvpStorageProvider = ({
   const [records, setRecords] = useState<Record<string, MvpDeathRecord>>({});
   const [recordsLoading, setRecordsLoading] = useState(true);
 
-  const userId = user?.id ?? null;
+  const isAuthenticated = !!user?.id;
 
   useEffect(() => {
-    if (!userId) {
+    if (!isAuthenticated) {
       setRecords({});
       setRecordsLoading(false);
 
       return;
     }
     setRecordsLoading(true);
-    fetchDeathsForUser(userId)
+    fetchAllDeaths()
       .then(setRecords)
       .catch(() => setRecords({}))
       .finally(() => setRecordsLoading(false));
-  }, [userId]);
+  }, [isAuthenticated]);
 
   const deathTimes = useMemo(
     () => buildDeathTimesFromRecords(records, list),
@@ -108,9 +108,9 @@ export const MvpStorageProvider = ({
       date: Date,
       mapPosition?: { x: number; y: number } | null,
     ) => {
-      if (!userId) return;
+      if (!isAuthenticated) return;
       try {
-        await upsertDeath(userId, mvpId, date, mapPosition ?? undefined);
+        await upsertDeath(mvpId, date, mapPosition ?? undefined);
         setRecords((prev) => ({
           ...prev,
           [mvpId]: {
@@ -122,14 +122,14 @@ export const MvpStorageProvider = ({
         // Optionally surface error to UI
       }
     },
-    [userId],
+    [isAuthenticated],
   );
 
   const clearMvpRegister = useCallback(
     async (mvpId: string) => {
-      if (!userId) return;
+      if (!isAuthenticated) return;
       try {
-        await deleteDeath(userId, mvpId);
+        await deleteDeath(mvpId);
         setRecords((prev) => {
           const next = { ...prev };
 
@@ -141,18 +141,18 @@ export const MvpStorageProvider = ({
         // Optionally surface error to UI
       }
     },
-    [userId],
+    [isAuthenticated],
   );
 
   const clearAllRegisters = useCallback(async () => {
-    if (!userId) return;
+    if (!isAuthenticated) return;
     try {
-      await deleteAllDeaths(userId);
+      await deleteAllDeaths();
       setRecords({});
     } catch {
       // Optionally surface error to UI
     }
-  }, [userId]);
+  }, [isAuthenticated]);
 
   const getStoredMapPosition = useCallback(
     (mvpId: string): { x: number; y: number } | null => {

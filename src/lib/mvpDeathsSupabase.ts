@@ -4,13 +4,12 @@ import { supabase } from "@/lib/supabase";
 
 type MapPosition = { x: number; y: number };
 
-export async function fetchDeathsForUser(
-  userId: string,
-): Promise<Record<string, MvpDeathRecord>> {
+export async function fetchAllDeaths(): Promise<
+  Record<string, MvpDeathRecord>
+> {
   const { data, error } = await supabase
     .from("mvp_deaths")
-    .select("mvp_id, death_time, map_position")
-    .eq("user_id", userId);
+    .select("mvp_id, death_time, map_position");
 
   if (error) throw error;
 
@@ -30,42 +29,36 @@ export async function fetchDeathsForUser(
 }
 
 export async function upsertDeath(
-  userId: string,
   mvpId: string,
   deathTime: Date,
   mapPosition?: MapPosition | null,
 ): Promise<void> {
   const { error } = await supabase.from("mvp_deaths").upsert(
     {
-      user_id: userId,
       mvp_id: mvpId,
       death_time: deathTime.toISOString(),
       map_position: mapPosition ?? null,
     },
-    { onConflict: "user_id,mvp_id" },
+    { onConflict: "mvp_id" },
   );
 
   if (error) throw error;
 }
 
-export async function deleteDeath(
-  userId: string,
-  mvpId: string,
-): Promise<void> {
+export async function deleteDeath(mvpId: string): Promise<void> {
   const { error } = await supabase
     .from("mvp_deaths")
     .delete()
-    .eq("user_id", userId)
     .eq("mvp_id", mvpId);
 
   if (error) throw error;
 }
 
-export async function deleteAllDeaths(userId: string): Promise<void> {
+export async function deleteAllDeaths(): Promise<void> {
   const { error } = await supabase
     .from("mvp_deaths")
     .delete()
-    .eq("user_id", userId);
+    .neq("mvp_id", "");
 
   if (error) throw error;
 }
