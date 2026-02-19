@@ -4,35 +4,40 @@ import { supabase } from "@/lib/supabase";
 
 type MapPosition = { x: number; y: number };
 
-export async function fetchAllDeaths(): Promise<
-  Record<string, MvpDeathRecord>
-> {
+export type FetchDeathsResult = {
+  records: Record<string, MvpDeathRecord>;
+  idToMvpId: Record<string, string>;
+};
+
+export const fetchAllDeaths = async (): Promise<FetchDeathsResult> => {
   const { data, error } = await supabase
     .from("mvp_deaths")
-    .select("mvp_id, death_time, map_position");
+    .select("id, mvp_id, death_time, map_position");
 
   if (error) throw error;
 
-  const record: Record<string, MvpDeathRecord> = {};
+  const records: Record<string, MvpDeathRecord> = {};
+  const idToMvpId: Record<string, string> = {};
 
   for (const row of data ?? []) {
-    record[row.mvp_id] = {
+    records[row.mvp_id] = {
       deathTime: row.death_time,
       mapPosition:
         row.map_position && typeof row.map_position === "object"
           ? (row.map_position as MapPosition)
           : undefined,
     };
+    idToMvpId[row.id] = row.mvp_id;
   }
 
-  return record;
-}
+  return { records, idToMvpId };
+};
 
-export async function upsertDeath(
+export const upsertDeath = async (
   mvpId: string,
   deathTime: Date,
   mapPosition?: MapPosition | null,
-): Promise<void> {
+): Promise<void> => {
   const { error } = await supabase.from("mvp_deaths").upsert(
     {
       mvp_id: mvpId,
@@ -43,22 +48,22 @@ export async function upsertDeath(
   );
 
   if (error) throw error;
-}
+};
 
-export async function deleteDeath(mvpId: string): Promise<void> {
+export const deleteDeath = async (mvpId: string): Promise<void> => {
   const { error } = await supabase
     .from("mvp_deaths")
     .delete()
     .eq("mvp_id", mvpId);
 
   if (error) throw error;
-}
+};
 
-export async function deleteAllDeaths(): Promise<void> {
+export const deleteAllDeaths = async (): Promise<void> => {
   const { error } = await supabase
     .from("mvp_deaths")
     .delete()
     .neq("mvp_id", "");
 
   if (error) throw error;
-}
+};

@@ -6,6 +6,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 
@@ -17,9 +18,13 @@ import {
   fetchAllDeaths,
   upsertDeath,
 } from "@/lib/mvpDeathsSupabase";
+import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/contexts/AuthContext";
 
 const EXTRA_TIME_IN_DEAD_LIST_MS = 60 * 60 * 1000; // 1 hour
+
+const STORAGE_ERROR_MESSAGE =
+  "Sessão expirada ou erro de rede. Tente novamente ou faça login.";
 
 type DeathTimesState = Record<string, Date | null>;
 
@@ -34,6 +39,23 @@ type MvpStorageContextValue = {
   clearAllRegisters: () => void;
   getStoredMapPosition: (mvpId: string) => { x: number; y: number } | null;
   recordsLoading: boolean;
+  lastError: string | null;
+  clearError: () => void;
+};
+
+const isAuthError = (err: unknown): boolean => {
+  if (!err || typeof err !== "object") return false;
+  const e = err as { status?: number; message?: string };
+
+  if (e.status === 401) return true;
+  const msg = (e.message ?? "").toLowerCase();
+
+  return (
+    msg.includes("jwt") ||
+    msg.includes("session") ||
+    msg.includes("auth") ||
+    msg.includes("token")
+  );
 };
 
 const MvpStorageContext = createContext<MvpStorageContextValue | null>(null);
@@ -70,6 +92,13 @@ function buildDeathTimesFromRecords(
   return state;
 }
 
+type RealtimePayloadRow = {
+  id?: string;
+  mvp_id?: string;
+  death_time?: string;
+  map_position?: { x: number; y: number } | null;
+};
+
 export const MvpStorageProvider = ({
   children,
   list = mvpList,
@@ -80,26 +109,132 @@ export const MvpStorageProvider = ({
   const { user } = useAuth();
   const [records, setRecords] = useState<Record<string, MvpDeathRecord>>({});
   const [recordsLoading, setRecordsLoading] = useState(true);
+  const [lastError, setLastError] = useState<string | null>(null);
+  const idToMvpIdRef = useRef<Record<string, string>>({});
 
   const isAuthenticated = !!user?.id;
 
   useEffect(() => {
     if (!isAuthenticated) {
       setRecords({});
+      idToMvpIdRef.current = {};
       setRecordsLoading(false);
 
       return;
     }
     setRecordsLoading(true);
     fetchAllDeaths()
-      .then(setRecords)
+      .then(({ records: r, idToMvpId }) => {
+        setRecords(r);
+        idToMvpIdRef.current = idToMvpId;
+      })
       .catch(() => setRecords({}))
       .finally(() => setRecordsLoading(false));
+  }, [isAuthenticated]);
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    const channel = supabase
+      .channel("mvp-deaths-realtime")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "mvp_deaths",
+        },
+        (payload: {
+          eventType: "INSERT" | "UPDATE" | "DELETE";
+          new?: RealtimePayloadRow;
+          old?: RealtimePayloadRow;
+        }) => {
+          if (payload.eventType === "DELETE" && payload.old) {
+            const rowId = payload.old.id ?? "";
+            const mvpId = payload.old.mvp_id ?? idToMvpIdRef.current[rowId];
+
+            if (mvpId) {
+              const nextIdMap = { ...idToMvpIdRef.current };
+
+              delete nextIdMap[rowId];
+              idToMvpIdRef.current = nextIdMap;
+              setRecords((prev) => {
+                const next = { ...prev };
+
+                delete next[mvpId];
+
+                return next;
+              });
+            }
+
+            return;
+          }
+
+          const row = payload.new;
+
+          if (!row?.mvp_id || !row?.death_time) return;
+
+          const mvpId = row.mvp_id as string;
+          const deathTime = row.death_time as string;
+
+          if (row.id) {
+            idToMvpIdRef.current = {
+              ...idToMvpIdRef.current,
+              [row.id]: mvpId,
+            };
+          }
+          setRecords((prev) => ({
+            ...prev,
+            [mvpId]: {
+              deathTime,
+              mapPosition:
+                row.map_position && typeof row.map_position === "object"
+                  ? row.map_position
+                  : undefined,
+            },
+          }));
+        },
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [isAuthenticated]);
 
   const deathTimes = useMemo(
     () => buildDeathTimesFromRecords(records, list),
     [records, list],
+  );
+
+  const runWithAuthRetry = useCallback(
+    async <T,>(fn: () => Promise<T>): Promise<T | null> => {
+      await supabase.auth.getSession();
+      try {
+        return await fn();
+      } catch (err) {
+        if (isAuthError(err)) {
+          const { error: refreshErr } = await supabase.auth.refreshSession();
+
+          if (refreshErr) {
+            setLastError(STORAGE_ERROR_MESSAGE);
+
+            return null;
+          }
+          try {
+            return await fn();
+          } catch (retryErr) {
+            setLastError(STORAGE_ERROR_MESSAGE);
+
+            return null;
+          }
+        }
+        setLastError(STORAGE_ERROR_MESSAGE);
+
+        return null;
+      }
+    },
+    [],
   );
 
   const setDeathTime = useCallback(
@@ -109,8 +244,12 @@ export const MvpStorageProvider = ({
       mapPosition?: { x: number; y: number } | null,
     ) => {
       if (!isAuthenticated) return;
-      try {
-        await upsertDeath(mvpId, date, mapPosition ?? undefined);
+      setLastError(null);
+      const ok = await runWithAuthRetry(() =>
+        upsertDeath(mvpId, date, mapPosition ?? undefined),
+      );
+
+      if (ok !== null) {
         setRecords((prev) => ({
           ...prev,
           [mvpId]: {
@@ -118,18 +257,18 @@ export const MvpStorageProvider = ({
             mapPosition: mapPosition ?? undefined,
           },
         }));
-      } catch {
-        // Optionally surface error to UI
       }
     },
-    [isAuthenticated],
+    [isAuthenticated, runWithAuthRetry],
   );
 
   const clearMvpRegister = useCallback(
     async (mvpId: string) => {
       if (!isAuthenticated) return;
-      try {
-        await deleteDeath(mvpId);
+      setLastError(null);
+      const ok = await runWithAuthRetry(() => deleteDeath(mvpId));
+
+      if (ok !== null) {
         setRecords((prev) => {
           const next = { ...prev };
 
@@ -137,22 +276,21 @@ export const MvpStorageProvider = ({
 
           return next;
         });
-      } catch {
-        // Optionally surface error to UI
       }
     },
-    [isAuthenticated],
+    [isAuthenticated, runWithAuthRetry],
   );
 
   const clearAllRegisters = useCallback(async () => {
     if (!isAuthenticated) return;
-    try {
-      await deleteAllDeaths();
+    setLastError(null);
+    const ok = await runWithAuthRetry(() => deleteAllDeaths());
+
+    if (ok !== null) {
       setRecords({});
-    } catch {
-      // Optionally surface error to UI
+      idToMvpIdRef.current = {};
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, runWithAuthRetry]);
 
   const getStoredMapPosition = useCallback(
     (mvpId: string): { x: number; y: number } | null => {
@@ -160,6 +298,8 @@ export const MvpStorageProvider = ({
     },
     [records],
   );
+
+  const clearError = useCallback(() => setLastError(null), []);
 
   const value = useMemo<MvpStorageContextValue>(
     () => ({
@@ -169,6 +309,8 @@ export const MvpStorageProvider = ({
       clearAllRegisters,
       getStoredMapPosition,
       recordsLoading,
+      lastError,
+      clearError,
     }),
     [
       deathTimes,
@@ -177,6 +319,8 @@ export const MvpStorageProvider = ({
       clearAllRegisters,
       getStoredMapPosition,
       recordsLoading,
+      lastError,
+      clearError,
     ],
   );
 

@@ -11,8 +11,14 @@ import { useMvpDeathStorage } from "@/hooks/useMvpDeathStorage";
 import { ClearAllDataModal } from "@/components/ClearAllDataModal";
 
 export default function IndexPage() {
-  const { deathTimes, setDeathTime, getStoredMapPosition, recordsLoading } =
-    useMvpDeathStorage();
+  const {
+    deathTimes,
+    setDeathTime,
+    getStoredMapPosition,
+    recordsLoading,
+    lastError,
+    clearError,
+  } = useMvpDeathStorage();
 
   const { aliveList, deadList } = useMemo(() => {
     const alive: MvpData[] = [];
@@ -92,6 +98,22 @@ export default function IndexPage() {
 
   return (
     <DefaultLayout onOpenClearAllModal={handleOpenClearAllModal}>
+      {lastError && (
+        <div
+          className="mx-auto mt-4 flex max-w-6xl items-center justify-between gap-2 rounded-lg border border-danger-500/50 bg-danger-500/10 px-4 py-3 text-danger"
+          role="alert"
+        >
+          <p className="flex-1 text-sm">{lastError}</p>
+          <button
+            aria-label="Fechar"
+            className="shrink-0 rounded px-2 py-1 text-sm underline hover:no-underline"
+            type="button"
+            onClick={clearError}
+          >
+            Fechar
+          </button>
+        </div>
+      )}
       <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
         <Accordion variant="bordered">
           <AccordionItem
