@@ -7,12 +7,12 @@ import { mvpList } from "@/data/mvps";
 import { RegisterDeathModal } from "@/components/RegisterDeathModal/RegisterDeathModal";
 import { LocationModal } from "@/components/LocationModal/LocationModal";
 import { MvpData } from "@/interfaces";
-import { getStoredMapPosition } from "@/utils";
 import { useMvpDeathStorage } from "@/hooks/useMvpDeathStorage";
 import { ClearAllDataModal } from "@/components/ClearAllDataModal";
 
 export default function IndexPage() {
-  const { deathTimes, setDeathTime } = useMvpDeathStorage();
+  const { deathTimes, setDeathTime, getStoredMapPosition, recordsLoading } =
+    useMvpDeathStorage();
 
   const { aliveList, deadList } = useMemo(() => {
     const alive: MvpData[] = [];
@@ -44,8 +44,12 @@ export default function IndexPage() {
   const [isClearAllModalOpen, setIsClearAllModalOpen] = useState(false);
 
   const handleRegisteredDeath = useCallback(
-    (mvpId: string, deathTime: Date) => {
-      setDeathTime(mvpId, deathTime);
+    (
+      mvpId: string,
+      deathTime: Date,
+      mapPosition?: { x: number; y: number },
+    ) => {
+      setDeathTime(mvpId, deathTime, mapPosition);
     },
     [setDeathTime],
   );
@@ -75,6 +79,16 @@ export default function IndexPage() {
   const storedMapPosition = selectedMvp
     ? getStoredMapPosition(selectedMvp.id)
     : null;
+
+  if (recordsLoading) {
+    return (
+      <DefaultLayout onOpenClearAllModal={handleOpenClearAllModal}>
+        <div className="flex flex-1 items-center justify-center py-12">
+          <p className="text-default-500">Carregando registros...</p>
+        </div>
+      </DefaultLayout>
+    );
+  }
 
   return (
     <DefaultLayout onOpenClearAllModal={handleOpenClearAllModal}>
@@ -118,9 +132,9 @@ export default function IndexPage() {
         isOpen={isRegisterModalOpen}
         mvp={selectedMvp}
         onClose={handleCloseRegisterModal}
-        onRegistered={(deathTime) => {
+        onRegistered={(deathTime, mapPosition) => {
           if (selectedMvp?.id) {
-            handleRegisteredDeath(selectedMvp.id, deathTime);
+            handleRegisteredDeath(selectedMvp.id, deathTime, mapPosition);
           }
         }}
       />

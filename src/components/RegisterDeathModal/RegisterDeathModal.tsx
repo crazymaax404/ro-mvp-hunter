@@ -14,8 +14,6 @@ import { ClockIcon, LocationPinIcon, SkullIcon } from "../icons";
 
 import { RegisterDeathModalProps } from "./registerDeathModal.interfaces";
 
-import { setStoredDeathRecord } from "@/utils/mvpDeathStorage";
-
 const TOMB_IMAGE_URL = "https://browiki.org/images/2/26/MvP2.gif";
 
 export const RegisterDeathModal = ({
@@ -73,11 +71,7 @@ export const RegisterDeathModal = ({
       deathTime = now;
     }
 
-    setStoredDeathRecord(id, {
-      deathTime: deathTime.toISOString(),
-      mapPosition: pendingPosition ?? undefined,
-    });
-    onRegistered(deathTime);
+    onRegistered(deathTime, pendingPosition ?? undefined);
     onClose();
     setTimeValue(null);
     setPendingPosition(null);

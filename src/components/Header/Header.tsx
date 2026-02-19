@@ -4,12 +4,22 @@ import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
 import { Tooltip } from "@heroui/tooltip";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/navbar";
+import { useNavigate } from "react-router-dom";
 
 import { HeaderProps } from "./header.interfaces";
 
 import { SearchIcon, TrashIcon } from "@/components/icons";
+import { useAuth } from "@/contexts/AuthContext";
 
 export const Header = ({ onOpenClearAllModal }: HeaderProps) => {
+  const { signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignOut = () => {
+    signOut();
+    navigate("/login", { replace: true });
+  };
+
   const searchInput = (
     <Input
       aria-label="Search"
@@ -61,6 +71,14 @@ export const Header = ({ onOpenClearAllModal }: HeaderProps) => {
               <TrashIcon size={20} />
             </Button>
           </Tooltip>
+          <Button
+            color="default"
+            size="sm"
+            variant="flat"
+            onPress={handleSignOut}
+          >
+            Sair
+          </Button>
         </NavbarItem>
       </NavbarContent>
     </Navbar>

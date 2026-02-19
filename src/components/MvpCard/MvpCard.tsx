@@ -23,7 +23,7 @@ import { MvpInfoBadge } from "../MvpInfoBadge/MvpInfoBadge";
 import { MvpCardProps } from "./mvpCard.interfaces";
 
 import { RespawnChipConfig, RespawnStatus } from "@/interfaces";
-import { formatCountdown, formatTime, getStoredMapPosition } from "@/utils";
+import { formatCountdown, formatTime } from "@/utils";
 import { useMvpDeathStorage } from "@/hooks/useMvpDeathStorage";
 import { useMvpInfoStatus } from "@/hooks/useMvpInfoStatus";
 
@@ -33,7 +33,7 @@ export const MvpCard = ({
   onOpenLocationModal,
   onOpenRegisterModal,
 }: MvpCardProps) => {
-  const { clearMvpRegister } = useMvpDeathStorage();
+  const { clearMvpRegister, getStoredMapPosition } = useMvpDeathStorage();
   const infoStatus = useMvpInfoStatus(mvp);
 
   const { id, name, level, respawnMin, respawnMax, map, imageUrl } = mvp;

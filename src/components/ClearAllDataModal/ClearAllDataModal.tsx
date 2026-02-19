@@ -17,8 +17,8 @@ export const ClearAllDataModal = ({
 }: ClearAllDataModalProps) => {
   const { clearAllRegisters } = useMvpDeathStorage();
 
-  const handleConfirmClearAll = () => {
-    clearAllRegisters();
+  const handleConfirmClearAll = async () => {
+    await clearAllRegisters();
     setIsClearAllModalOpen(false);
   };
 

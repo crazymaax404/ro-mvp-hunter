@@ -1,3 +1,5 @@
+import type { MvpDeathRecord } from "@/interfaces";
+
 import {
   createContext,
   useCallback,
@@ -10,40 +12,63 @@ import {
 import { MvpData } from "@/interfaces";
 import { mvpList } from "@/data/mvps";
 import {
-  clearAllMvpRecords,
-  getMvpDeathStorageKey,
-  getStoredDeathTime,
-  removeExpiredMvpRecords,
-  removeMvpRecord,
-  setStoredDeathTime,
-} from "@/utils/mvpDeathStorage";
+  deleteAllDeaths,
+  deleteDeath,
+  fetchDeathsForUser,
+  upsertDeath,
+} from "@/lib/mvpDeathsSupabase";
+import { useAuth } from "@/contexts/AuthContext";
+
+const EXTRA_TIME_IN_DEAD_LIST_MS = 60 * 60 * 1000; // 1 hour
 
 type DeathTimesState = Record<string, Date | null>;
 
 type MvpStorageContextValue = {
   deathTimes: DeathTimesState;
-  setDeathTime: (mvpId: string, date: Date) => void;
+  setDeathTime: (
+    mvpId: string,
+    date: Date,
+    mapPosition?: { x: number; y: number } | null,
+  ) => void;
   clearMvpRegister: (mvpId: string) => void;
   clearAllRegisters: () => void;
+  getStoredMapPosition: (mvpId: string) => { x: number; y: number } | null;
+  recordsLoading: boolean;
 };
 
 const MvpStorageContext = createContext<MvpStorageContextValue | null>(null);
 
-const buildDeathTimes = (mvpList: MvpData[]): DeathTimesState => {
+function buildDeathTimesFromRecords(
+  records: Record<string, MvpDeathRecord>,
+  list: MvpData[],
+): DeathTimesState {
+  const now = Date.now();
   const idToRespawnMax = Object.fromEntries(
-    mvpList.map((m) => [m.id, m.respawnMax]),
+    list.map((m) => [m.id, m.respawnMax]),
   );
-
-  removeExpiredMvpRecords(idToRespawnMax);
-
   const state: DeathTimesState = {};
 
-  mvpList.forEach((mvp) => {
-    state[mvp.id] = getStoredDeathTime(mvp.id);
+  list.forEach((mvp) => {
+    const record = records[mvp.id];
+
+    if (!record) {
+      state[mvp.id] = null;
+
+      return;
+    }
+    const deathTime = new Date(record.deathTime).getTime();
+    const respawnMaxMs = idToRespawnMax[mvp.id] * 60 * 1000;
+    const removeAfterMs = respawnMaxMs + EXTRA_TIME_IN_DEAD_LIST_MS;
+
+    if (now > deathTime + removeAfterMs) {
+      state[mvp.id] = null;
+    } else {
+      state[mvp.id] = new Date(record.deathTime);
+    }
   });
 
   return state;
-};
+}
 
 export const MvpStorageProvider = ({
   children,
@@ -52,73 +77,107 @@ export const MvpStorageProvider = ({
   children: React.ReactNode;
   list?: MvpData[];
 }) => {
-  const [deathTimes, setDeathTimes] = useState<DeathTimesState>(() =>
-    typeof window === "undefined" ? {} : buildDeathTimes(list),
-  );
+  const { user } = useAuth();
+  const [records, setRecords] = useState<Record<string, MvpDeathRecord>>({});
+  const [recordsLoading, setRecordsLoading] = useState(true);
+
+  const userId = user?.id ?? null;
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    const idToRespawnMax = Object.fromEntries(
-      list.map((m) => [m.id, m.respawnMax]),
-    );
-    const interval = setInterval(() => {
-      removeExpiredMvpRecords(idToRespawnMax);
-      setDeathTimes((prev) => {
-        const next = { ...prev };
-        let changed = false;
+    if (!userId) {
+      setRecords({});
+      setRecordsLoading(false);
 
-        list.forEach((mvp) => {
-          const key = getMvpDeathStorageKey(mvp.id);
-          const stored =
-            typeof window !== "undefined" ? localStorage.getItem(key) : null;
-          const stillExists = stored !== null;
+      return;
+    }
+    setRecordsLoading(true);
+    fetchDeathsForUser(userId)
+      .then(setRecords)
+      .catch(() => setRecords({}))
+      .finally(() => setRecordsLoading(false));
+  }, [userId]);
 
-          if (prev[mvp.id] !== null && !stillExists) {
-            next[mvp.id] = null;
-            changed = true;
-          } else if (stillExists) {
-            const time = getStoredDeathTime(mvp.id);
+  const deathTimes = useMemo(
+    () => buildDeathTimesFromRecords(records, list),
+    [records, list],
+  );
 
-            if (time !== prev[mvp.id]) {
-              next[mvp.id] = time;
-              changed = true;
-            }
-          }
+  const setDeathTime = useCallback(
+    async (
+      mvpId: string,
+      date: Date,
+      mapPosition?: { x: number; y: number } | null,
+    ) => {
+      if (!userId) return;
+      try {
+        await upsertDeath(userId, mvpId, date, mapPosition ?? undefined);
+        setRecords((prev) => ({
+          ...prev,
+          [mvpId]: {
+            deathTime: date.toISOString(),
+            mapPosition: mapPosition ?? undefined,
+          },
+        }));
+      } catch {
+        // Optionally surface error to UI
+      }
+    },
+    [userId],
+  );
+
+  const clearMvpRegister = useCallback(
+    async (mvpId: string) => {
+      if (!userId) return;
+      try {
+        await deleteDeath(userId, mvpId);
+        setRecords((prev) => {
+          const next = { ...prev };
+
+          delete next[mvpId];
+
+          return next;
         });
+      } catch {
+        // Optionally surface error to UI
+      }
+    },
+    [userId],
+  );
 
-        return changed ? next : prev;
-      });
-    }, 60 * 1000);
+  const clearAllRegisters = useCallback(async () => {
+    if (!userId) return;
+    try {
+      await deleteAllDeaths(userId);
+      setRecords({});
+    } catch {
+      // Optionally surface error to UI
+    }
+  }, [userId]);
 
-    return () => clearInterval(interval);
-  }, [list]);
-
-  const setDeathTime = useCallback((mvpId: string, date: Date) => {
-    setStoredDeathTime(mvpId, date);
-    setDeathTimes((prev) => ({ ...prev, [mvpId]: date }));
-  }, []);
-
-  const clearMvpRegister = useCallback((mvpId: string) => {
-    removeMvpRecord(mvpId);
-    setDeathTimes((prev) => ({ ...prev, [mvpId]: null }));
-  }, []);
-
-  const clearAllRegisters = useCallback(() => {
-    clearAllMvpRecords();
-    setDeathTimes((prev) => {
-      const next = { ...prev };
-
-      Object.keys(next).forEach((id) => {
-        next[id] = null;
-      });
-
-      return next;
-    });
-  }, []);
+  const getStoredMapPosition = useCallback(
+    (mvpId: string): { x: number; y: number } | null => {
+      return records[mvpId]?.mapPosition ?? null;
+    },
+    [records],
+  );
 
   const value = useMemo<MvpStorageContextValue>(
-    () => ({ deathTimes, setDeathTime, clearMvpRegister, clearAllRegisters }),
-    [deathTimes, setDeathTime, clearMvpRegister, clearAllRegisters],
+    () => ({
+      deathTimes,
+      setDeathTime,
+      clearMvpRegister,
+      clearAllRegisters,
+      getStoredMapPosition,
+      recordsLoading,
+    }),
+    [
+      deathTimes,
+      setDeathTime,
+      clearMvpRegister,
+      clearAllRegisters,
+      getStoredMapPosition,
+      recordsLoading,
+    ],
   );
 
   return (
