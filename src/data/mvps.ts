@@ -813,7 +813,7 @@ export const mvpList: MvpData[] = [
     name: "Corrupted Spider Queen",
     level: 195,
     respawnMin: 60,
-    respawnMax: 90,
+    respawnMax: 70,
     map: "gl_cas01_",
     imageUrl: "https://game.ragnaplace.com/ro/job/20421/0.png",
     mapUrl: "https://game.ragnaplace.com/ro/iro/map/gl_cas01_.webp",
