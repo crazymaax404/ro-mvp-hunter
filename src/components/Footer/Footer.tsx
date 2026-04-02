@@ -13,7 +13,7 @@ export const Footer = () => {
     <footer className="w-full flex items-center justify-center py-3">
       <Navbar maxWidth="xl">
         <p className="text-sm text-default-500">
-          {mvpCount} MVPs cadastrados · Dados salvos localmente
+          {mvpCount} MVPs cadastrados · Dados salvos na nuvem com segurança
         </p>
         <NavbarContent
           className="hidden sm:flex basis-1/5 sm:basis-full"
