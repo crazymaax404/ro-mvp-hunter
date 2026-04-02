@@ -44,7 +44,7 @@ const FINDABILITY_CONFIG: Record<
 };
 
 export const useMvpInfoStatus = (
-  mvp: Pick<MvpData, "competitiveness" | "findability" | "hasTeleport">,
+  mvp: Pick<MvpData, "competitiveness" | "findability">,
 ): MvpInfoStatus => {
   return useMemo(() => {
     const comp = COMPETITIVENESS_CONFIG[mvp.competitiveness];
@@ -59,11 +59,6 @@ export const useMvpInfoStatus = (
         ...enc,
         level: mvp.findability,
       },
-      hasTeleport: {
-        hasTeleport: mvp.hasTeleport,
-        colorClass: mvp.hasTeleport ? "bg-blue-500" : "bg-amber-700",
-        label: mvp.hasTeleport ? "Tem teleporte" : "Sem teleporte",
-      },
     };
-  }, [mvp.competitiveness, mvp.findability, mvp.hasTeleport]);
+  }, [mvp.competitiveness, mvp.findability]);
 };

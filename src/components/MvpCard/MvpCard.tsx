@@ -15,7 +15,6 @@ import {
   CompassIcon,
   SearchMagnifyIcon,
   SkullIcon,
-  TeleportIcon,
   TrashIcon,
 } from "../icons";
 import { MvpInfoBadge } from "../MvpInfoBadge/MvpInfoBadge";
@@ -36,7 +35,8 @@ export const MvpCard = ({
   const { clearMvpRegister, getStoredMapPosition } = useMvpDeathStorage();
   const infoStatus = useMvpInfoStatus(mvp);
 
-  const { id, name, level, respawnMin, respawnMax, map, imageUrl } = mvp;
+  const { id, name, level, respawnMin, respawnMax, map, imageUrl, points } =
+    mvp;
 
   const [now, setNow] = useState(() => new Date());
 
@@ -194,11 +194,6 @@ export const MvpCard = ({
                 content={infoStatus.findability.message}
                 icon={<SearchMagnifyIcon size={16} />}
               />
-              <MvpInfoBadge
-                colorClass={infoStatus.hasTeleport.colorClass}
-                content={infoStatus.hasTeleport.label}
-                icon={<TeleportIcon size={16} />}
-              />
               {mvp.doNotSpawnTomb && (
                 <MvpInfoBadge
                   colorClass="bg-pink-500 text-white"
@@ -217,7 +212,7 @@ export const MvpCard = ({
           </div>
           <div>
             <p className="text-sm text-default-500">
-              Lv. {level} · {map}
+              Lv. {level} · {map} · {points} pts
             </p>
             <div className="flex items-center gap-2">
               <ClockIcon size={16} />
@@ -263,7 +258,7 @@ export const MvpCard = ({
             Registrar Morte
           </Button>
 
-          {!mvp.hasTeleport && mvp.teleportTip && (
+          {mvp.teleportTip && (
             <Accordion className="border-b border-default-200 p-0">
               <AccordionItem
                 key="teleport-tip"

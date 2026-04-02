@@ -13,8 +13,8 @@ export interface MvpData {
   mapUrl: string;
   competitiveness: CompetitivenessScore;
   findability: FindabilityScore;
-  hasTeleport: boolean;
-  teleportTip?: string;
+  teleportTip: string;
+  points: number;
   doNotSpawnTomb?: boolean;
   givePoints?: boolean;
 }
@@ -49,10 +49,5 @@ export interface MvpInfoStatus {
     message: string;
     colorClass: string;
     level: FindabilityScore;
-  };
-  hasTeleport: {
-    hasTeleport: boolean;
-    colorClass: string;
-    label: string;
   };
 }
