@@ -1130,8 +1130,8 @@ export const mvpList: MvpData[] = [
     teleportTip: "Campos de Rachel, Power Twisted Plains",
   },
   {
-    id: "nightmate-piamette",
-    name: "Nightmate Piamette",
+    id: "nightmare-piamette",
+    name: "Nightmare Piamette",
     level: 275,
     points: 20,
     respawnMin: 360,
