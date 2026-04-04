@@ -567,7 +567,7 @@ export const mvpList: MvpData[] = [
     id: "fallen-bishop",
     name: "Fallen Bishop",
     level: 138,
-    points: 20,
+    points: 30,
     respawnMin: 120,
     respawnMax: 130,
     map: "abbey02",
