@@ -908,7 +908,7 @@ export const mvpList: MvpData[] = [
     id: "bone-detardeurus",
     name: "Bone Detardeurus",
     level: 209,
-    points: 30,
+    points: 40,
     respawnMin: 180,
     respawnMax: 190,
     map: "abyss_04",
