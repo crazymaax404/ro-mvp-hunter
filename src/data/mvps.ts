@@ -824,7 +824,7 @@ export const mvpList: MvpData[] = [
     id: "rigid-muspellskol",
     name: "Rigid Muspellskol",
     level: 188,
-    points: 30,
+    points: 40,
     respawnMin: 120,
     respawnMax: 130,
     map: "mag_dun03",
