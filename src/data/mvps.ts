@@ -768,7 +768,7 @@ export const mvpList: MvpData[] = [
     id: "spider-chariot",
     name: "Spider Chariot",
     level: 158,
-    points: 30,
+    points: 20,
     respawnMin: 120,
     respawnMax: 130,
     map: "rockmi1",
