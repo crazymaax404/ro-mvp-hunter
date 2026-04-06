@@ -399,7 +399,7 @@ export const mvpList: MvpData[] = [
     id: "evil-snake-lord",
     name: "Evil Snake Lord",
     level: 105,
-    points: 10,
+    points: 20,
     respawnMin: 94,
     respawnMax: 104,
     map: "gon_dun03",
