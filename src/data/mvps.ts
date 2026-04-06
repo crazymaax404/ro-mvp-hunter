@@ -1011,7 +1011,7 @@ export const mvpList: MvpData[] = [
     id: "death-witch",
     name: "Death Witch",
     level: 255,
-    points: 40,
+    points: 50,
     respawnMin: 360,
     respawnMax: 370,
     map: "nif_dun02",
