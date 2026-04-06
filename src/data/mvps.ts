@@ -922,7 +922,7 @@ export const mvpList: MvpData[] = [
     id: "burning-fang",
     name: "Burning Fang",
     level: 212,
-    points: 30,
+    points: 50,
     respawnMin: 360,
     respawnMax: 370,
     map: "oz_dun02",
