@@ -1,3 +1,5 @@
+import type { MvpSortMode } from "@/components/Header/header.interfaces";
+
 import { useState, useCallback, useMemo } from "react";
 import { Accordion, AccordionItem } from "@heroui/accordion";
 
@@ -10,6 +12,40 @@ import { MvpData } from "@/interfaces";
 import { useMvpDeathStorage } from "@/hooks/useMvpDeathStorage";
 import { ClearAllDataModal } from "@/components/ClearAllDataModal";
 
+const mvpIndexById = new Map(
+  mvpList.map((mvp, index) => [mvp.id, index] as const),
+);
+
+function compareAliveMvps(a: MvpData, b: MvpData, mode: MvpSortMode): number {
+  const tie = () =>
+    (mvpIndexById.get(a.id) ?? 0) - (mvpIndexById.get(b.id) ?? 0);
+
+  switch (mode) {
+    case "level":
+      return tie();
+    case "points": {
+      const c = a.points - b.points;
+
+      return c !== 0 ? c : tie();
+    }
+    case "respawnMin": {
+      const c = a.respawnMin - b.respawnMin;
+
+      return c !== 0 ? c : tie();
+    }
+    case "competitiveness": {
+      const c = a.competitiveness - b.competitiveness;
+
+      return c !== 0 ? c : tie();
+    }
+    case "findability": {
+      const c = a.findability - b.findability;
+
+      return c !== 0 ? c : tie();
+    }
+  }
+}
+
 export default function IndexPage() {
   const {
     deathTimes,
@@ -20,18 +56,25 @@ export default function IndexPage() {
     clearError,
   } = useMvpDeathStorage();
 
+  const [onlyGivePoints, setOnlyGivePoints] = useState(false);
+  const [sortMode, setSortMode] = useState<MvpSortMode>("level");
+
   const { aliveList, deadList } = useMemo(() => {
     const alive: MvpData[] = [];
     const dead: MvpData[] = [];
 
-    mvpList.forEach((mvp) => {
+    const source = onlyGivePoints
+      ? mvpList.filter((mvp) => mvp.givePoints !== false)
+      : mvpList;
+
+    source.forEach((mvp) => {
       if (deathTimes[mvp.id]) {
         dead.push(mvp);
       } else {
         alive.push(mvp);
       }
     });
-    alive.sort((a, b) => a.level - b.level);
+    alive.sort((a, b) => compareAliveMvps(a, b, sortMode));
     dead.sort((a, b) => {
       const deathA = deathTimes[a.id]!.getTime();
       const deathB = deathTimes[b.id]!.getTime();
@@ -42,7 +85,7 @@ export default function IndexPage() {
     });
 
     return { aliveList: alive, deadList: dead };
-  }, [deathTimes]);
+  }, [deathTimes, onlyGivePoints, sortMode]);
 
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
@@ -86,9 +129,17 @@ export default function IndexPage() {
     ? getStoredMapPosition(selectedMvp.id)
     : null;
 
+  const layoutHeaderProps = {
+    onOpenClearAllModal: handleOpenClearAllModal,
+    onlyGivePoints,
+    onOnlyGivePointsChange: setOnlyGivePoints,
+    sortMode,
+    onSortModeChange: setSortMode,
+  };
+
   if (recordsLoading) {
     return (
-      <DefaultLayout onOpenClearAllModal={handleOpenClearAllModal}>
+      <DefaultLayout {...layoutHeaderProps}>
         <div className="flex flex-1 items-center justify-center py-12">
           <p className="text-default-500">Carregando registros...</p>
         </div>
@@ -97,7 +148,7 @@ export default function IndexPage() {
   }
 
   return (
-    <DefaultLayout onOpenClearAllModal={handleOpenClearAllModal}>
+    <DefaultLayout {...layoutHeaderProps}>
       {lastError && (
         <div
           className="mx-auto mt-4 flex max-w-6xl items-center justify-between gap-2 rounded-lg border border-danger-500/50 bg-danger-500/10 px-4 py-3 text-danger"
