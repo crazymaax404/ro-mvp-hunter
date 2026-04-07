@@ -981,7 +981,7 @@ export const mvpList: MvpData[] = [
     id: "ultra-limacina",
     name: "Ultra Limacina",
     level: 245,
-    points: 40,
+    points: 50,
     respawnMin: 600,
     respawnMax: 610,
     map: "jor_back3",
